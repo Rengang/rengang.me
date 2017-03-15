@@ -1,2 +1,0 @@
-# rengang.me
-blog source
