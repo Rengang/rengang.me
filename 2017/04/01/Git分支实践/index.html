@@ -112,7 +112,7 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="Git分支实践">
 <meta property="og:url" content="http://rengang.me/2017/04/01/Git分支实践/index.html">
-<meta property="og:site_name" content="Ren Gang">
+<meta property="og:site_name" content="知易行难">
 <meta property="og:description" content="分支策略
 在开发软件时，可能有多人同时为同一个软件开发功能或修复BUG，可能存在多个Release版本，并且需要对各个版本进行维护。分支是为了将修改记录的整体流程分叉保存。分叉后的分支不受其他分支的影响，所以在同一个数据库里可以同时进行多个修改。
 
@@ -136,7 +136,7 @@
     fancybox: true,
     motion: true,
     duoshuo: {
-      userId: '0',
+      userId: 'undefined',
       author: '博主'
     },
     algolia: {
@@ -157,7 +157,7 @@
 
 
 
-  <title> Git分支实践 | Ren Gang </title>
+  <title> Git分支实践 | 知易行难 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -193,12 +193,12 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Ren Gang</span>
+        <span class="site-title">知易行难</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
       
-        <p class="site-subtitle">个人博客</p>
+        <p class="site-subtitle">骐骥一跃,不能十步；驽马十驾,功在不舍。</p>
       
   </div>
 
@@ -315,7 +315,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Ren Gang">
+      <meta itemprop="name" content="知易行难">
     </span>
 
     
@@ -383,8 +383,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/04/01/Git分支实践/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/01/Git分支实践/" itemprop="commentCount"></span>
+                <a class="cloud-tie-join-count" href="/2017/04/01/Git分支实践/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count join-count" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -546,8 +546,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/04/01/初识Git/" rel="next" title="初识Git">
-                <i class="fa fa-chevron-left"></i> 初识Git
+              <a href="/2017/04/01/使用Git/" rel="next" title="使用Git">
+                <i class="fa fa-chevron-left"></i> 使用Git
               </a>
             
           </div>
@@ -580,9 +580,7 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/04/01/Git分支实践/"
-           data-title="Git分支实践" data-url="http://rengang.me/2017/04/01/Git分支实践/">
-      </div>
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
     
   </div>
 
@@ -832,35 +830,31 @@
 
   
 
-  
-    
+
+
   
 
-  <script type="text/javascript">
-    var duoshuoQuery = {short_name:"rengang"};
-    (function() {
-      var ds = document.createElement('script');
-      ds.type = 'text/javascript';ds.async = true;
-      ds.id = 'duoshuo-script';
-      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-      ds.charset = 'UTF-8';
-      (document.getElementsByTagName('head')[0]
-      || document.getElementsByTagName('body')[0]).appendChild(ds);
-    })();
-  </script>
+
+
+
+	
+
+
+
+
 
   
     
-    
-    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
-    <script src="/js/src/hook-duoshuo.js"></script>
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "7e2ad14054844051b171230b29c84ab2",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
   
-
-
-
-
-
-
 
 
 

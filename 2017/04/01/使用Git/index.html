@@ -112,7 +112,7 @@ Git的初始配置Git 提供了一个叫做 git config 的工，专门用来配�
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用Git">
 <meta property="og:url" content="http://rengang.me/2017/04/01/使用Git/index.html">
-<meta property="og:site_name" content="Ren Gang">
+<meta property="og:site_name" content="知易行难">
 <meta property="og:description" content="Git的安装Git的安装非常简单，而且有很多资料，不介绍。
 Git的初始配置Git 提供了一个叫做 git config 的工，专门用来配置或读取相应的工作环境变量。而正是由这些环境变量，决定了 Git 在各个环节的具体工作方式和行为。这些变量可以存放在以下三个不同的地方：
 
@@ -136,7 +136,7 @@ Git的初始配置Git 提供了一个叫做 git config 的工，专门用来配�
     fancybox: true,
     motion: true,
     duoshuo: {
-      userId: '0',
+      userId: 'undefined',
       author: '博主'
     },
     algolia: {
@@ -157,7 +157,7 @@ Git的初始配置Git 提供了一个叫做 git config 的工，专门用来配�
 
 
 
-  <title> 使用Git | Ren Gang </title>
+  <title> 使用Git | 知易行难 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -193,12 +193,12 @@ Git的初始配置Git 提供了一个叫做 git config 的工，专门用来配�
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Ren Gang</span>
+        <span class="site-title">知易行难</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
       
-        <p class="site-subtitle">个人博客</p>
+        <p class="site-subtitle">骐骥一跃,不能十步；驽马十驾,功在不舍。</p>
       
   </div>
 
@@ -315,7 +315,7 @@ Git的初始配置Git 提供了一个叫做 git config 的工，专门用来配�
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Ren Gang">
+      <meta itemprop="name" content="知易行难">
     </span>
 
     
@@ -383,8 +383,8 @@ Git的初始配置Git 提供了一个叫做 git config 的工，专门用来配�
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/04/01/使用Git/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/01/使用Git/" itemprop="commentCount"></span>
+                <a class="cloud-tie-join-count" href="/2017/04/01/使用Git/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count join-count" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -601,8 +601,8 @@ Git的初始配置Git 提供了一个叫做 git config 的工，专门用来配�
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/15/Hexo博客搭建过程记录/" rel="next" title="Hexo博客搭建过程记录">
-                <i class="fa fa-chevron-left"></i> Hexo博客搭建过程记录
+              <a href="/2017/04/01/初识Git/" rel="next" title="初识Git">
+                <i class="fa fa-chevron-left"></i> 初识Git
               </a>
             
           </div>
@@ -611,8 +611,8 @@ Git的初始配置Git 提供了一个叫做 git config 的工，专门用来配�
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/04/01/初识Git/" rel="prev" title="初识Git">
-                初识Git <i class="fa fa-chevron-right"></i>
+              <a href="/2017/04/01/Git分支实践/" rel="prev" title="Git分支实践">
+                Git分支实践 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -639,9 +639,7 @@ Git的初始配置Git 提供了一个叫做 git config 的工，专门用来配�
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/04/01/使用Git/"
-           data-title="使用Git" data-url="http://rengang.me/2017/04/01/使用Git/">
-      </div>
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
     
   </div>
 
@@ -891,35 +889,31 @@ Git的初始配置Git 提供了一个叫做 git config 的工，专门用来配�
 
   
 
-  
-    
+
+
   
 
-  <script type="text/javascript">
-    var duoshuoQuery = {short_name:"rengang"};
-    (function() {
-      var ds = document.createElement('script');
-      ds.type = 'text/javascript';ds.async = true;
-      ds.id = 'duoshuo-script';
-      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-      ds.charset = 'UTF-8';
-      (document.getElementsByTagName('head')[0]
-      || document.getElementsByTagName('body')[0]).appendChild(ds);
-    })();
-  </script>
+
+
+
+	
+
+
+
+
 
   
     
-    
-    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
-    <script src="/js/src/hook-duoshuo.js"></script>
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "7e2ad14054844051b171230b29c84ab2",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
   
-
-
-
-
-
-
 
 
 
