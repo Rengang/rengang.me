@@ -385,8 +385,7 @@
 
       
         
-          
-            <p>MySQL的Time Zone很有意思，也很容易被忽略。</p>
+          <p>MySQL的Time Zone很有意思，也很容易被忽略。</p>
 <ol>
 <li><strong>时区的更改会影响MySQL时间函数的值，例如NOW(),CURDATE()等</strong></li>
 <li><strong>时区的更改会影响timestamp类型列的值，注意TIMESTAMP列的值从当前时区转换为UTC用于存储，当进行检索的时候从UTC转换到当前时区，所以当时区（或者会话时区）发生变化时，timestamp的值不同。</strong></li>
@@ -394,56 +393,13 @@
 <li><strong>除系统时区影响上述，当修改当前会话的时区时也影响上述。</strong></li>
 </ol>
 <h2 id="MySQL-Server时区详解"><a href="#MySQL-Server时区详解" class="headerlink" title="MySQL Server时区详解"></a>MySQL Server时区详解</h2><p> 查看数据库当前的时区设置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">mysql&gt; show variables like &apos;%time_zone%&apos;;</div><div class="line">+------------------+--------+</div><div class="line">| Variable_name    | Value  |</div><div class="line">+------------------+--------+</div><div class="line">| system_time_zone | CST    |</div><div class="line">| time_zone        | SYSTEM |</div><div class="line">+------------------+--------+</div><div class="line">2 rows in set (0.00 sec)</div></pre></td></tr></table></figure>
-<ul>
-<li><p>system_time_zone. 当前MySQL Server 启动的时候，会尝试确定当前主机的时区，并使用它来设置system_time_zone, 这个的不会改变.</p>
-<p>  您可以在启动时使用 <code>--timezone = timezone_name</code>选项为mysqld_safe设置MySQL Server的系统时区。您也可以在启动Mysqld之前设置TZ环境变量来进行设置。 <code>--timezone</code>或TZ的允许值取决于系统。</p>
-</li>
-<li><p>time_zone. 全局time_zone系统变量表示服务器当前正在运行的时区。time_zone的初始值为“SYSTEM”，表示服务器时区与系统时区相同。</p>
-<ol>
-<li><p>在启动时可以使用命令行上的<code>--default-time-zone = timezone</code>选项显式指定初始全局服务器时区值，也可以在选项文件中使用以下行：<br><code>default-time-zone=&#39;timezone&#39;</code><br>例如：<br>可以通过修改my.cnf<br>在 [mysqld] 之下加<br><code>default-time-zone = &#39;+8:00&#39;</code></p>
-</li>
-<li><p>如果您具有权限，则可以使用SQL语句在运行时设置全局服务器时区值：<br><code>mysql&gt; SET GLOBAL time_zone = timezone;</code></p>
-</li>
-<li><p>当前会话时区，接的每个客户端都有自己的时区设置，由会话time_zone变量给出。最初，会话变量从全局time_zone变量获取其值，但客户端可以使用此语句更改其自己的时区：<br><code>mysql&gt; SET time_zone = timezone;</code></p>
-<p>当前会话时区设置会影响到对区域敏感的是时间值的显示和存储。<br>影响有：</p>
-<ul>
-<li>NOW() 或者 CURTIME()等函数；</li>
-<li>类型为TIMESTAMP的列的值( TIMESTAMP列的值从当前时区转换为UTC，用于存储，并从UTC转换到当前时区进行检索)。 </li>
-<li>当前时区设置不会影响由UTC_TIMESTAMP（）或DATE，TIME或DATETIME列中的值显示的值。这些数据类型中的值也不是存储在UTC中;仅当从TIMESTAMP值转换时，时区才适用于它们。如果要对DATE，TIME或DATETIME值进行特定于语言环境的算术，请将其转换为UTC，执行算术，然后进行转换。</li>
-</ul>
-</li>
-<li><p>查看全局时区，以及当前会话时区<br><code>mysql&gt; SELECT @@global.time_zone, @@session.time_zone;</code></p>
-</li>
-<li><p>time_zone的值。</p>
-<ul>
-<li>SYSTEM 表示时区与系统时区相同。</li>
-<li>该值可以作为指示与UTC的偏移量的字符串给出，例如“+10:00”或“-6:00”。中国为“+08:00”</li>
-<li>时区的命名 ‘Europe_Helsinki’, ‘US_Eastern’, or ‘MET’. <strong>只有在创建并填充mysql数据库中的时区信息表时，才能使用命名时区。</strong></li>
-</ul>
-</li>
-</ol>
-</li>
-</ul>
-<h2 id="试验时区问题"><a href="#试验时区问题" class="headerlink" title="试验时区问题"></a>试验时区问题</h2><p>条件当前时区为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">mysql&gt; show variables like &apos;%time_zone%&apos;;</div><div class="line">+------------------+--------+</div><div class="line">| Variable_name    | Value  |</div><div class="line">+------------------+--------+</div><div class="line">| system_time_zone | CST    |</div><div class="line">| time_zone        | SYSTEM |</div><div class="line">+------------------+--------+</div><div class="line">2 rows in set (0.00 sec)</div></pre></td></tr></table></figure></p>
-<p>可以看到，当前MySQL的时区是SYSTEM，与系统保持一致。</p>
-<p>新建数据,添加一些测试数据：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">&lt;!--表结构：--&gt;</div><div class="line">mysql&gt; show create table  test\G;</div><div class="line">Create Table: </div><div class="line">CREATE TABLE `test` (</div><div class="line">  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,</div><div class="line">  `timest` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,</div><div class="line">  `date` datetime DEFAULT CURRENT_TIMESTAMP,</div><div class="line">  `unixtime` int(11) DEFAULT NULL,</div><div class="line">  PRIMARY KEY (`id`)</div><div class="line">) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8</div><div class="line"></div><div class="line">&lt;!--初始化数据--&gt;</div><div class="line"></div><div class="line">mysql&gt; select * , FROM_UNIXTIME(unixtime) from test\G;</div><div class="line">****** 1. row ******</div><div class="line">id: 1</div><div class="line">timest: 2017-06-05 12:33:22</div><div class="line">date: 2017-06-05 11:52:14</div><div class="line">unixtime: 1496656334</div><div class="line">FROM_UNIXTIME(unixtime): 2017-06-05 17:52:14</div></pre></td></tr></table></figure></p>
-<p><strong>修改系统时区的影响</strong><br>    当前系统时区:<br>    <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">rengang@mac-pro:~|⇒  date -R</div><div class="line">Mon, 05 Jun 2017 12:05:08 +0800</div></pre></td></tr></table></figure></p>
-<pre><code>修改系统时区到巴黎:
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">rengang@mac-pro:~|⇒  date -R</div><div class="line">Mon, 05 Jun 2017 06:06:12 +0200</div></pre></td></tr></table></figure>
-
-重新来查一些当前数据：
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">mysql&gt; select * , FROM_UNIXTIME(unixtime) from test\G;</div><div class="line">******1. row ******</div><div class="line">id: 1</div><div class="line">timest: 2017-06-05 06:33:22</div><div class="line">date: 2017-06-05 11:52:14</div><div class="line">unixtime: 1496656334</div><div class="line">FROM_UNIXTIME(unixtime): 2017-06-05 11:52:14</div><div class="line">1 row in set (0.01 sec)</div></pre></td></tr></table></figure>
-
-很明显当系统时区更改时类型为timestamp的时间，以及FROM_UNIXTIME转的时间戳时间都发生变化。
-</code></pre><p><strong>修改初始MySQL时区影响</strong></p>
-<p>修改my.conf<br><code>default-time-zone=&#39;+08:00&#39;</code><br>修改配置后重启MySQL SERVER</p>
-<p>查看当前时区信息：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">mysql&gt; show variables like &apos;%time_zone%&apos;;</div><div class="line">+------------------+--------+</div><div class="line">| Variable_name    | Value  |</div><div class="line">+------------------+--------+</div><div class="line">| system_time_zone | CEST   |</div><div class="line">| time_zone        | +08:00 |</div><div class="line">+------------------+--------+</div><div class="line">2 rows in set (0.01 sec)</div></pre></td></tr></table></figure></p>
-<p>查看当前表数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mysql&gt; select * , FROM_UNIXTIME(unixtime) from test\G;</div><div class="line">******1. row *****</div><div class="line"> id: 1</div><div class="line">timest: 2017-06-05 12:33:22</div><div class="line">date: 2017-06-05 11:52:14</div><div class="line">unixtime: 1496656334</div><div class="line">FROM_UNIXTIME(unixtime): 2017-06-05 17:52:14</div></pre></td></tr></table></figure></p>
-<p>和初始化数据一致了,此时MySQL全局时区是自定义时区</p>
-<h2 id="参考文档："><a href="#参考文档：" class="headerlink" title="参考文档："></a>参考文档：</h2><p><a href="https://dev.mysql.com/doc/refman/5.7/en/time-zone-support.html" target="_blank" rel="external">MySQL文档时区部分</a></p>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/06/19/timezone/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>

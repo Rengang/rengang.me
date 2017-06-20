@@ -119,7 +119,7 @@
 时区的更改会影响MySQL时间函数的值，例如NOW(),CURDATE()等
 时区的更改会影响timestamp类型列的值，注意TIMESTAMP列的值从当前时区转换为UTC用于存储，当进行检索的时候从UTC转换到当前时区，所以当时区（或者会话时区）发生变化时，timestamp的值不同。
 时区影响FROM_UNIXTIME(),UNIX">
-<meta property="og:updated_time" content="2017-06-20T05:03:39.000Z">
+<meta property="og:updated_time" content="2017-06-20T05:05:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL Time Zone 时区问题">
 <meta name="twitter:description" content="MySQL的Time Zone很有意思，也很容易被忽略。
@@ -410,6 +410,7 @@
 <li><strong>除系统时区影响上述，当修改当前会话的时区时也影响上述。</strong></li>
 </ol>
 <h2 id="MySQL-Server时区详解"><a href="#MySQL-Server时区详解" class="headerlink" title="MySQL Server时区详解"></a>MySQL Server时区详解</h2><p> 查看数据库当前的时区设置：</p>
+ <a id="more"></a>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">mysql&gt; show variables like &apos;%time_zone%&apos;;</div><div class="line">+------------------+--------+</div><div class="line">| Variable_name    | Value  |</div><div class="line">+------------------+--------+</div><div class="line">| system_time_zone | CST    |</div><div class="line">| time_zone        | SYSTEM |</div><div class="line">+------------------+--------+</div><div class="line">2 rows in set (0.00 sec)</div></pre></td></tr></table></figure>
 <ul>
 <li><p>system_time_zone. 当前MySQL Server 启动的时候，会尝试确定当前主机的时区，并使用它来设置system_time_zone, 这个的不会改变.</p>
