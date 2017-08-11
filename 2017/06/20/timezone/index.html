@@ -105,16 +105,28 @@
 
 
 
-<meta name="description" content="PHP安装xdebug扩展配置  先安装php-xdebug（简单略过）.后修改xdebug配置如下：12345678910111213141516#扩展位置，不更改zend_extension=&amp;quot;/usr/local/opt/php71-xdebug/xdebug.so&amp;quot; #新增配置#允许远程调试xdebug.remote_enable = 1#远程所在HOST和PORTxd">
+<meta name="description" content="MySQL的Time Zone很有意思，也很容易被忽略。
+
+时区的更改会影响MySQL时间函数的值，例如NOW(),CURDATE()等
+时区的更改会影响timestamp类型列的值，注意TIMESTAMP列的值从当前时区转换为UTC用于存储，当进行检索的时候从UTC转换到当前时区，所以当时区（或者会话时区）发生变化时，timestamp的值不同。
+时区影响FROM_UNIXTIME(),UNIX">
 <meta property="og:type" content="article">
-<meta property="og:title" content="xdebug+phpstorm+chrom配置记录">
-<meta property="og:url" content="http://rengang.me/2017/06/14/phpstorm-xdebug/index.html">
+<meta property="og:title" content="MySQL Time Zone 时区问题">
+<meta property="og:url" content="http://rengang.me/2017/06/20/timezone/index.html">
 <meta property="og:site_name" content="RenGang">
-<meta property="og:description" content="PHP安装xdebug扩展配置  先安装php-xdebug（简单略过）.后修改xdebug配置如下：12345678910111213141516#扩展位置，不更改zend_extension=&amp;quot;/usr/local/opt/php71-xdebug/xdebug.so&amp;quot; #新增配置#允许远程调试xdebug.remote_enable = 1#远程所在HOST和PORTxd">
-<meta property="og:updated_time" content="2017-06-14T02:46:46.000Z">
+<meta property="og:description" content="MySQL的Time Zone很有意思，也很容易被忽略。
+
+时区的更改会影响MySQL时间函数的值，例如NOW(),CURDATE()等
+时区的更改会影响timestamp类型列的值，注意TIMESTAMP列的值从当前时区转换为UTC用于存储，当进行检索的时候从UTC转换到当前时区，所以当时区（或者会话时区）发生变化时，timestamp的值不同。
+时区影响FROM_UNIXTIME(),UNIX">
+<meta property="og:updated_time" content="2017-06-20T05:05:13.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="xdebug+phpstorm+chrom配置记录">
-<meta name="twitter:description" content="PHP安装xdebug扩展配置  先安装php-xdebug（简单略过）.后修改xdebug配置如下：12345678910111213141516#扩展位置，不更改zend_extension=&amp;quot;/usr/local/opt/php71-xdebug/xdebug.so&amp;quot; #新增配置#允许远程调试xdebug.remote_enable = 1#远程所在HOST和PORTxd">
+<meta name="twitter:title" content="MySQL Time Zone 时区问题">
+<meta name="twitter:description" content="MySQL的Time Zone很有意思，也很容易被忽略。
+
+时区的更改会影响MySQL时间函数的值，例如NOW(),CURDATE()等
+时区的更改会影响timestamp类型列的值，注意TIMESTAMP列的值从当前时区转换为UTC用于存储，当进行检索的时候从UTC转换到当前时区，所以当时区（或者会话时区）发生变化时，timestamp的值不同。
+时区影响FROM_UNIXTIME(),UNIX">
 
 
 
@@ -142,13 +154,13 @@
 
 
 
-  <link rel="canonical" href="http://rengang.me/2017/06/14/phpstorm-xdebug/"/>
+  <link rel="canonical" href="http://rengang.me/2017/06/20/timezone/"/>
 
 
 
 
 
-  <title> xdebug+phpstorm+chrom配置记录 | RenGang </title>
+  <title> MySQL Time Zone 时区问题 | RenGang </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -297,7 +309,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://rengang.me/2017/06/14/phpstorm-xdebug/">
+    <link itemprop="mainEntityOfPage" href="http://rengang.me/2017/06/20/timezone/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Ren Gang">
@@ -318,7 +330,7 @@
             
             
               
-                xdebug+phpstorm+chrom配置记录
+                MySQL Time Zone 时区问题
               
             
           </h1>
@@ -333,8 +345,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-14T10:30:04+08:00">
-                2017-06-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-20T05:43:21+08:00">
+                2017-06-20
               </time>
             
 
@@ -344,28 +356,6 @@
           </span>
 
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/programming/" itemprop="url" rel="index">
-                    <span itemprop="name">编程</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
 
           
             
@@ -374,7 +364,7 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a class="cloud-tie-join-count" href="/2017/06/14/phpstorm-xdebug/#comments" itemprop="discussionUrl">
+                <a class="cloud-tie-join-count" href="/2017/06/20/timezone/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count join-count" itemprop="commentCount"></span>
                 </a>
               </span>
@@ -383,7 +373,7 @@
 
           
           
-             <span id="/2017/06/14/phpstorm-xdebug/" class="leancloud_visitors" data-flag-title="xdebug+phpstorm+chrom配置记录">
+             <span id="/2017/06/20/timezone/" class="leancloud_visitors" data-flag-title="MySQL Time Zone 时区问题">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -412,20 +402,64 @@
       
 
       
-        <h3 id="PHP安装xdebug扩展配置"><a href="#PHP安装xdebug扩展配置" class="headerlink" title="PHP安装xdebug扩展配置"></a>PHP安装xdebug扩展配置</h3><p>  先安装php-xdebug（简单略过）.后修改xdebug配置如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">#扩展位置，不更改</div><div class="line">zend_extension=&quot;/usr/local/opt/php71-xdebug/xdebug.so&quot; </div><div class="line">#新增配置</div><div class="line"></div><div class="line">#允许远程调试</div><div class="line">xdebug.remote_enable = 1</div><div class="line">#远程所在HOST和PORT</div><div class="line">xdebug.remote_host= localhost</div><div class="line">xdebug.remote_connect_back = 1</div><div class="line">#远程配置都是默认，只修改port默认是9000，这里修改为9001，php-fpm运行占用9000端口。</div><div class="line">xdebug.remote_port = 9001</div><div class="line">xdebug.max_nesting_level = 512</div><div class="line"></div><div class="line">#可以是任意Key，这里设定为PHPSTORM，此KEY和后面IDE以及浏览器配置保持一致</div><div class="line">xdebug.idekey=&quot;PHPSTORM&quot;</div><div class="line">xdebug.default_enable=on</div></pre></td></tr></table></figure></p>
-<h3 id="PHPSTORM-配置"><a href="#PHPSTORM-配置" class="headerlink" title="PHPSTORM 配置"></a>PHPSTORM 配置</h3><a id="more"></a>
+        <p>MySQL的Time Zone很有意思，也很容易被忽略。</p>
 <ol>
-<li>phpstorm设置–&gt;languages and frameworks –&gt; php 找到php的设置 选择好php level 和 interpreter （环境的php版本和 php cli路径）</li>
-<li>php配置下面的servers： 新增项目的域名配置debugger选择xdebug</li>
-<li>php配置下面的debug： 勾选xdebug下面所有选项，xdebug端口修改为9001 和安装xdebug的配置xdebug.remote_port端口保持一致</li>
-<li>php配置下的debug下面的DBGp  Proxy配置项： IDEKEY和安装xdebug的配置xdebug.idekey保持一致 ，host项目的域名，port项目的端口 </li>
-<li>保存配置后，进入工具栏的RUN ，选择 Edit configurations, 新增config 选择 php web application, server选择刚php配置的server，browser选择chrome</li>
+<li><strong>时区的更改会影响MySQL时间函数的值，例如NOW(),CURDATE()等</strong></li>
+<li><strong>时区的更改会影响timestamp类型列的值，注意TIMESTAMP列的值从当前时区转换为UTC用于存储，当进行检索的时候从UTC转换到当前时区，所以当时区（或者会话时区）发生变化时，timestamp的值不同。</strong></li>
+<li><strong>时区影响FROM_UNIXTIME(),UNIX_TIMESTAMP()的时间转换值。</strong></li>
+<li><strong>除系统时区影响上述，当修改当前会话的时区时也影响上述。</strong></li>
 </ol>
-<h3 id="chrom-安装配置"><a href="#chrom-安装配置" class="headerlink" title="chrom 安装配置"></a>chrom 安装配置</h3><ol>
-<li>安装Xdebug helper 扩展</li>
-<li>IDE key 选择 phpstorm，填写PHPSTORM，和xdebug.idekey保持一致</li>
+<h2 id="MySQL-Server时区详解"><a href="#MySQL-Server时区详解" class="headerlink" title="MySQL Server时区详解"></a>MySQL Server时区详解</h2><p> 查看数据库当前的时区设置：</p>
+ <a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">mysql&gt; show variables like &apos;%time_zone%&apos;;</div><div class="line">+------------------+--------+</div><div class="line">| Variable_name    | Value  |</div><div class="line">+------------------+--------+</div><div class="line">| system_time_zone | CST    |</div><div class="line">| time_zone        | SYSTEM |</div><div class="line">+------------------+--------+</div><div class="line">2 rows in set (0.00 sec)</div></pre></td></tr></table></figure>
+<ul>
+<li><p>system_time_zone. 当前MySQL Server 启动的时候，会尝试确定当前主机的时区，并使用它来设置system_time_zone, 这个的不会改变.</p>
+<p>  您可以在启动时使用 <code>--timezone = timezone_name</code>选项为mysqld_safe设置MySQL Server的系统时区。您也可以在启动Mysqld之前设置TZ环境变量来进行设置。 <code>--timezone</code>或TZ的允许值取决于系统。</p>
+</li>
+<li><p>time_zone. 全局time_zone系统变量表示服务器当前正在运行的时区。time_zone的初始值为“SYSTEM”，表示服务器时区与系统时区相同。</p>
+<ol>
+<li><p>在启动时可以使用命令行上的<code>--default-time-zone = timezone</code>选项显式指定初始全局服务器时区值，也可以在选项文件中使用以下行：<br><code>default-time-zone=&#39;timezone&#39;</code><br>例如：<br>可以通过修改my.cnf<br>在 [mysqld] 之下加<br><code>default-time-zone = &#39;+8:00&#39;</code></p>
+</li>
+<li><p>如果您具有权限，则可以使用SQL语句在运行时设置全局服务器时区值：<br><code>mysql&gt; SET GLOBAL time_zone = timezone;</code></p>
+</li>
+<li><p>当前会话时区，接的每个客户端都有自己的时区设置，由会话time_zone变量给出。最初，会话变量从全局time_zone变量获取其值，但客户端可以使用此语句更改其自己的时区：<br><code>mysql&gt; SET time_zone = timezone;</code></p>
+<p>当前会话时区设置会影响到对区域敏感的是时间值的显示和存储。<br>影响有：</p>
+<ul>
+<li>NOW() 或者 CURTIME()等函数；</li>
+<li>类型为TIMESTAMP的列的值( TIMESTAMP列的值从当前时区转换为UTC，用于存储，并从UTC转换到当前时区进行检索)。 </li>
+<li>当前时区设置不会影响由UTC_TIMESTAMP（）或DATE，TIME或DATETIME列中的值显示的值。这些数据类型中的值也不是存储在UTC中;仅当从TIMESTAMP值转换时，时区才适用于它们。如果要对DATE，TIME或DATETIME值进行特定于语言环境的算术，请将其转换为UTC，执行算术，然后进行转换。</li>
+</ul>
+</li>
+<li><p>查看全局时区，以及当前会话时区<br><code>mysql&gt; SELECT @@global.time_zone, @@session.time_zone;</code></p>
+</li>
+<li><p>time_zone的值。</p>
+<ul>
+<li>SYSTEM 表示时区与系统时区相同。</li>
+<li>该值可以作为指示与UTC的偏移量的字符串给出，例如“+10:00”或“-6:00”。中国为“+08:00”</li>
+<li>时区的命名 ‘Europe_Helsinki’, ‘US_Eastern’, or ‘MET’. <strong>只有在创建并填充mysql数据库中的时区信息表时，才能使用命名时区。</strong></li>
+</ul>
+</li>
 </ol>
-<h3 id="所有配置完成，IDE中打断点，运行debug即可"><a href="#所有配置完成，IDE中打断点，运行debug即可" class="headerlink" title="所有配置完成，IDE中打断点，运行debug即可"></a>所有配置完成，IDE中打断点，运行debug即可</h3>
+</li>
+</ul>
+<h2 id="试验时区问题"><a href="#试验时区问题" class="headerlink" title="试验时区问题"></a>试验时区问题</h2><p>条件当前时区为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">mysql&gt; show variables like &apos;%time_zone%&apos;;</div><div class="line">+------------------+--------+</div><div class="line">| Variable_name    | Value  |</div><div class="line">+------------------+--------+</div><div class="line">| system_time_zone | CST    |</div><div class="line">| time_zone        | SYSTEM |</div><div class="line">+------------------+--------+</div><div class="line">2 rows in set (0.00 sec)</div></pre></td></tr></table></figure></p>
+<p>可以看到，当前MySQL的时区是SYSTEM，与系统保持一致。</p>
+<p>新建数据,添加一些测试数据：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">&lt;!--表结构：--&gt;</div><div class="line">mysql&gt; show create table  test\G;</div><div class="line">Create Table: </div><div class="line">CREATE TABLE `test` (</div><div class="line">  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,</div><div class="line">  `timest` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,</div><div class="line">  `date` datetime DEFAULT CURRENT_TIMESTAMP,</div><div class="line">  `unixtime` int(11) DEFAULT NULL,</div><div class="line">  PRIMARY KEY (`id`)</div><div class="line">) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8</div><div class="line"></div><div class="line">&lt;!--初始化数据--&gt;</div><div class="line"></div><div class="line">mysql&gt; select * , FROM_UNIXTIME(unixtime) from test\G;</div><div class="line">****** 1. row ******</div><div class="line">id: 1</div><div class="line">timest: 2017-06-05 12:33:22</div><div class="line">date: 2017-06-05 11:52:14</div><div class="line">unixtime: 1496656334</div><div class="line">FROM_UNIXTIME(unixtime): 2017-06-05 17:52:14</div></pre></td></tr></table></figure></p>
+<p><strong>修改系统时区的影响</strong><br>    当前系统时区:<br>    <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">rengang@mac-pro:~|⇒  date -R</div><div class="line">Mon, 05 Jun 2017 12:05:08 +0800</div></pre></td></tr></table></figure></p>
+<pre><code>修改系统时区到巴黎:
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">rengang@mac-pro:~|⇒  date -R</div><div class="line">Mon, 05 Jun 2017 06:06:12 +0200</div></pre></td></tr></table></figure>
+
+重新来查一些当前数据：
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">mysql&gt; select * , FROM_UNIXTIME(unixtime) from test\G;</div><div class="line">******1. row ******</div><div class="line">id: 1</div><div class="line">timest: 2017-06-05 06:33:22</div><div class="line">date: 2017-06-05 11:52:14</div><div class="line">unixtime: 1496656334</div><div class="line">FROM_UNIXTIME(unixtime): 2017-06-05 11:52:14</div><div class="line">1 row in set (0.01 sec)</div></pre></td></tr></table></figure>
+
+很明显当系统时区更改时类型为timestamp的时间，以及FROM_UNIXTIME转的时间戳时间都发生变化。
+</code></pre><p><strong>修改初始MySQL时区影响</strong></p>
+<p>修改my.conf<br><code>default-time-zone=&#39;+08:00&#39;</code><br>修改配置后重启MySQL SERVER</p>
+<p>查看当前时区信息：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">mysql&gt; show variables like &apos;%time_zone%&apos;;</div><div class="line">+------------------+--------+</div><div class="line">| Variable_name    | Value  |</div><div class="line">+------------------+--------+</div><div class="line">| system_time_zone | CEST   |</div><div class="line">| time_zone        | +08:00 |</div><div class="line">+------------------+--------+</div><div class="line">2 rows in set (0.01 sec)</div></pre></td></tr></table></figure></p>
+<p>查看当前表数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mysql&gt; select * , FROM_UNIXTIME(unixtime) from test\G;</div><div class="line">******1. row *****</div><div class="line"> id: 1</div><div class="line">timest: 2017-06-05 12:33:22</div><div class="line">date: 2017-06-05 11:52:14</div><div class="line">unixtime: 1496656334</div><div class="line">FROM_UNIXTIME(unixtime): 2017-06-05 17:52:14</div></pre></td></tr></table></figure></p>
+<p>和初始化数据一致了,此时MySQL全局时区是自定义时区</p>
+<h2 id="参考文档："><a href="#参考文档：" class="headerlink" title="参考文档："></a>参考文档：</h2><p><a href="https://dev.mysql.com/doc/refman/5.7/en/time-zone-support.html" target="_blank" rel="external">MySQL文档时区部分</a></p>
+
       
     </div>
 
@@ -476,8 +510,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/06/14/redis/" rel="next" title="Redis基础记录">
-                <i class="fa fa-chevron-left"></i> Redis基础记录
+              <a href="/2017/06/14/phpstorm-xdebug/" rel="next" title="xdebug+phpstorm+chrom配置记录">
+                <i class="fa fa-chevron-left"></i> xdebug+phpstorm+chrom配置记录
               </a>
             
           </div>
@@ -486,8 +520,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/06/20/timezone/" rel="prev" title="MySQL Time Zone 时区问题">
-                MySQL Time Zone 时区问题 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/08/11/Git最佳实践GitFlow/" rel="prev" title="Git最佳实践GitFlow">
+                Git最佳实践GitFlow <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -639,7 +673,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#PHP安装xdebug扩展配置"><span class="nav-number">1.</span> <span class="nav-text">PHP安装xdebug扩展配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PHPSTORM-配置"><span class="nav-number">2.</span> <span class="nav-text">PHPSTORM 配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#chrom-安装配置"><span class="nav-number">3.</span> <span class="nav-text">chrom 安装配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#所有配置完成，IDE中打断点，运行debug即可"><span class="nav-number">4.</span> <span class="nav-text">所有配置完成，IDE中打断点，运行debug即可</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL-Server时区详解"><span class="nav-number">1.</span> <span class="nav-text">MySQL Server时区详解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#试验时区问题"><span class="nav-number">2.</span> <span class="nav-text">试验时区问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文档："><span class="nav-number">3.</span> <span class="nav-text">参考文档：</span></a></li></ol></div>
             
 
           </div>

@@ -298,7 +298,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://rengang.me/2017/06/19/timezone/">
+    <link itemprop="mainEntityOfPage" href="http://rengang.me/2017/08/11/Git最佳实践GitFlow/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Ren Gang">
@@ -320,7 +320,193 @@
             
               
                 
-                <a class="post-title-link" href="/2017/06/19/timezone/" itemprop="url">
+                <a class="post-title-link" href="/2017/08/11/Git最佳实践GitFlow/" itemprop="url">
+                  Git最佳实践GitFlow
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-11T15:56:51+08:00">
+                2017-08-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/programming/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/08/11/Git最佳实践GitFlow/" class="leancloud_visitors" data-flag-title="Git最佳实践GitFlow">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="GitFlow是现在比较流行的git分支模型上一张神图"><a href="#GitFlow是现在比较流行的git分支模型上一张神图" class="headerlink" title="GitFlow是现在比较流行的git分支模型上一张神图"></a>GitFlow是现在比较流行的git分支模型上一张神图</h4><p><img src="http://nvie.com/img/git-model@2x.png" alt="image"></p>
+<h4 id="具体的操作步骤如下："><a href="#具体的操作步骤如下：" class="headerlink" title="具体的操作步骤如下："></a>具体的操作步骤如下：</h4><ol>
+<li><p>主分支为master,这个分支最近发布到生产环境的代码，最近发布的Release， 这个分支只能从其他分支合并，不能在这个分支直接修改。发布分支为tag,每个tag为一个发布版本。</p>
+</li>
+<li><p>develop分支是开发分支，这个主要合并与其他分支,所有也是合并分支，所有代码的合并应该在develop完成</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git branch develop #创建分支</div><div class="line">git push -u origin develop   #push到远程仓库</div></pre></td></tr></table></figure>
+</li>
+<li><p>Feature分支从develop创建，用于开发新的功能分支。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">git checkout -b my-feature develop #从develop创建分支</div><div class="line">git push -u origin my-feature  #提交到远程仓库</div><div class="line"></div><div class="line"># 开发新功能    </div><div class="line">git status</div><div class="line">git add some-file</div><div class="line">git commit    #提交本地</div></pre></td></tr></table></figure>
+</li>
+<li><p>Feature分支功能开发完成,提交合并分支到develop</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">git pull origin develop #先拉去远程分支（在本地分支解决冲突）</div><div class="line">git checkout develop #切换到develop分支</div><div class="line">git merge --no-ff some-feature #合并feature分支</div><div class="line">git push origin develop #提交到远程仓库</div><div class="line"></div><div class="line">git branch -d some-feature #删除本地feature分支</div><div class="line"></div><div class="line">git push origin --delete some-feature   #删除远程feature分支</div></pre></td></tr></table></figure>
+</li>
+<li><p>Release待发布分支，一旦打了Release分支之后不要从Develop分支上合并新的改动到Release分支。基于Develop创建release分支。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">git checkout -b release-0.1.0 develop #创建release</div><div class="line"></div><div class="line"># Optional: Bump version number, commit</div><div class="line"># Prepare release, commit</div></pre></td></tr></table></figure>
+</li>
+<li><p>完成release</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">#合并到maser</div><div class="line">git checkout master</div><div class="line">git merge --no-ff release-0.1.0</div><div class="line">git push</div><div class="line"></div><div class="line">#合并到develop</div><div class="line">git checkout develop</div><div class="line">git merge --no-ff release-0.1.0</div><div class="line">git push</div><div class="line"></div><div class="line">#删除release分支</div><div class="line">git branch -d release-0.1.0</div><div class="line"># If you pushed branch to origin:</div><div class="line">git push origin --delete release-0.1.0</div></pre></td></tr></table></figure>
+</li>
+<li><p>发布新版本Tag,从master创建tag，tag为线上版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git tag -a v0.1.0 master</div><div class="line">git push --tags</div></pre></td></tr></table></figure>
+</li>
+<li><p>hotfix分支，生成环境问题修复。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git checkout -b hotfix-0.1.1 master #从master创建hotfix</div></pre></td></tr></table></figure>
+</li>
+<li><p>完成hotfix</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">#合并到master</div><div class="line">git checkout master</div><div class="line">git merge --no-ff hotfix-0.1.1</div><div class="line">git push</div><div class="line"></div><div class="line">#合并到develop</div><div class="line">git checkout develop</div><div class="line">git merge --no-ff hotfix-0.1.1</div><div class="line">git push</div><div class="line"></div><div class="line">#删除分支</div><div class="line">git branch -d hotfix-0.1.1</div><div class="line"></div><div class="line">#发布新版本</div><div class="line">git tag -a v0.1.1 master</div><div class="line">git push --tags</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<blockquote>
+<p>当然讨厌麻烦命令的可以看看git-flow工具，很方便实践gitflow。</p>
+</blockquote>
+<h4 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h4><blockquote>
+<p><a href="http://nvie.com/posts/a-successful-git-branching-model/" target="_blank" rel="external">A successful Git branching model</a></p>
+<p><a href="https://github.com/nvie/gitflow" target="_blank" rel="external">git-flow</a></p>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://rengang.me/2017/06/20/timezone/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ren Gang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="RenGang">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/20/timezone/" itemprop="url">
                   MySQL Time Zone 时区问题
                 </a>
               
@@ -355,7 +541,7 @@
 
           
           
-             <span id="/2017/06/19/timezone/" class="leancloud_visitors" data-flag-title="MySQL Time Zone 时区问题">
+             <span id="/2017/06/20/timezone/" class="leancloud_visitors" data-flag-title="MySQL Time Zone 时区问题">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -395,7 +581,7 @@
 <h2 id="MySQL-Server时区详解"><a href="#MySQL-Server时区详解" class="headerlink" title="MySQL Server时区详解"></a>MySQL Server时区详解</h2><p> 查看数据库当前的时区设置：</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/06/19/timezone/#more" rel="contents">
+            <a class="btn" href="/2017/06/20/timezone/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -924,6 +1110,167 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://rengang.me/2017/04/01/使用Git/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ren Gang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="RenGang">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/04/01/使用Git/" itemprop="url">
+                  使用Git
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-01T15:19:27+08:00">
+                2017-04-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/programming/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/04/01/使用Git/" class="leancloud_visitors" data-flag-title="使用Git">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h5 id="Git的安装"><a href="#Git的安装" class="headerlink" title="Git的安装"></a>Git的安装</h5><p>Git的安装非常简单，而且有很多资料，不介绍。</p>
+<h5 id="Git的初始配置"><a href="#Git的初始配置" class="headerlink" title="Git的初始配置"></a>Git的初始配置</h5><p>Git 提供了一个叫做 git config 的工，专门用来配置或读取相应的工作环境变量。而正是由这些环境变量，决定了 Git 在各个环节的具体工作方式和行为。这些变量可以存放在以下三个不同的地方：</p>
+<ul>
+<li>/etc/gitconfig 文件：系统中对所有用户都普遍适用的配置。若使用 git config 时用 –system 选项，读写的就是这个文件。</li>
+<li>~/.gitconfig 文件：用户目录下的配置文件只适用于该用户。若使用 git config 时用 –global 选项，读写的就是这个文件。</li>
+<li>当前项目的 git 目录中的配置文件（也就是工作目录中的 .git/config 文件）：这里的配置仅仅针对当前项目有效。每一个级别的配置都会覆盖上层的相同配置，所以 .git/config 里的配置会覆盖 /etc/gitconfig 中的同名变量。</li>
+</ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/04/01/使用Git/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://rengang.me/2017/04/01/初识Git/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1044,167 +1391,6 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/04/01/初识Git/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://rengang.me/2017/04/01/使用Git/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Ren Gang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/logo.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="RenGang">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/01/使用Git/" itemprop="url">
-                  使用Git
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-01T15:19:27+08:00">
-                2017-04-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/programming/" itemprop="url" rel="index">
-                    <span itemprop="name">编程</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/04/01/使用Git/" class="leancloud_visitors" data-flag-title="使用Git">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h5 id="Git的安装"><a href="#Git的安装" class="headerlink" title="Git的安装"></a>Git的安装</h5><p>Git的安装非常简单，而且有很多资料，不介绍。</p>
-<h5 id="Git的初始配置"><a href="#Git的初始配置" class="headerlink" title="Git的初始配置"></a>Git的初始配置</h5><p>Git 提供了一个叫做 git config 的工，专门用来配置或读取相应的工作环境变量。而正是由这些环境变量，决定了 Git 在各个环节的具体工作方式和行为。这些变量可以存放在以下三个不同的地方：</p>
-<ul>
-<li>/etc/gitconfig 文件：系统中对所有用户都普遍适用的配置。若使用 git config 时用 –system 选项，读写的就是这个文件。</li>
-<li>~/.gitconfig 文件：用户目录下的配置文件只适用于该用户。若使用 git config 时用 –global 选项，读写的就是这个文件。</li>
-<li>当前项目的 git 目录中的配置文件（也就是工作目录中的 .git/config 文件）：这里的配置仅仅针对当前项目有效。每一个级别的配置都会覆盖上层的相同配置，所以 .git/config 里的配置会覆盖 /etc/gitconfig 中的同名变量。</li>
-</ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/04/01/使用Git/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1578,7 +1764,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
