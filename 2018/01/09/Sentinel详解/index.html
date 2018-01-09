@@ -89,7 +89,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Git," />
+  <meta name="keywords" content="Redis,Sentinel,Redis高可用," />
 
 
 
@@ -105,25 +105,28 @@
 
 
 
-<meta name="description" content="分支策略
-在开发软件时，可能有多人同时为同一个软件开发功能或修复BUG，可能存在多个Release版本，并且需要对各个版本进行维护。分支是为了将修改记录的整体流程分叉保存。分叉后的分支不受其他分支的影响，所以在同一个数据库里可以同时进行多个修改。
+<meta name="description" content="本文完成使用了Redis Sentinel机制与用法（一） 中对Sentinel的翻译。
+Redis Sentinel Documentation
 
-简单来说，在项目开发中使用多个分支会带来额外的管理和维护开销，但是多个分支对于项目的团队合作、新功能开发和发布管理都是有一定好处的。不同的团队可以根据">
+官方文档已经很详细介绍了，附上中文的翻译文章；
+Sentinel的选举制度前面我们谈到，当一个master被sentinel集群监控时，需要为它指定一个参数，这个参数指定了当需要判决master为不可用，并且进行failover时，所需要的sent">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Git分支实践">
-<meta property="og:url" content="http://rengang.me/2017/04/01/Git分支实践/index.html">
+<meta property="og:title" content="Redis实例集合的高可用Sentinel(二)机制详解">
+<meta property="og:url" content="http://rengang.me/2018/01/09/Sentinel详解/index.html">
 <meta property="og:site_name" content="RenGang">
-<meta property="og:description" content="分支策略
-在开发软件时，可能有多人同时为同一个软件开发功能或修复BUG，可能存在多个Release版本，并且需要对各个版本进行维护。分支是为了将修改记录的整体流程分叉保存。分叉后的分支不受其他分支的影响，所以在同一个数据库里可以同时进行多个修改。
+<meta property="og:description" content="本文完成使用了Redis Sentinel机制与用法（一） 中对Sentinel的翻译。
+Redis Sentinel Documentation
 
-简单来说，在项目开发中使用多个分支会带来额外的管理和维护开销，但是多个分支对于项目的团队合作、新功能开发和发布管理都是有一定好处的。不同的团队可以根据">
-<meta property="og:updated_time" content="2017-04-01T08:02:46.000Z">
+官方文档已经很详细介绍了，附上中文的翻译文章；
+Sentinel的选举制度前面我们谈到，当一个master被sentinel集群监控时，需要为它指定一个参数，这个参数指定了当需要判决master为不可用，并且进行failover时，所需要的sent">
+<meta property="og:updated_time" content="2018-01-09T15:49:48.496Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Git分支实践">
-<meta name="twitter:description" content="分支策略
-在开发软件时，可能有多人同时为同一个软件开发功能或修复BUG，可能存在多个Release版本，并且需要对各个版本进行维护。分支是为了将修改记录的整体流程分叉保存。分叉后的分支不受其他分支的影响，所以在同一个数据库里可以同时进行多个修改。
+<meta name="twitter:title" content="Redis实例集合的高可用Sentinel(二)机制详解">
+<meta name="twitter:description" content="本文完成使用了Redis Sentinel机制与用法（一） 中对Sentinel的翻译。
+Redis Sentinel Documentation
 
-简单来说，在项目开发中使用多个分支会带来额外的管理和维护开销，但是多个分支对于项目的团队合作、新功能开发和发布管理都是有一定好处的。不同的团队可以根据">
+官方文档已经很详细介绍了，附上中文的翻译文章；
+Sentinel的选举制度前面我们谈到，当一个master被sentinel集群监控时，需要为它指定一个参数，这个参数指定了当需要判决master为不可用，并且进行failover时，所需要的sent">
 
 
 
@@ -151,13 +154,13 @@
 
 
 
-  <link rel="canonical" href="http://rengang.me/2017/04/01/Git分支实践/"/>
+  <link rel="canonical" href="http://rengang.me/2018/01/09/Sentinel详解/"/>
 
 
 
 
 
-  <title> Git分支实践 | RenGang </title>
+  <title> Redis实例集合的高可用Sentinel(二)机制详解 | RenGang </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -315,7 +318,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://rengang.me/2017/04/01/Git分支实践/">
+    <link itemprop="mainEntityOfPage" href="http://rengang.me/2018/01/09/Sentinel详解/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Ren Gang">
@@ -336,7 +339,7 @@
             
             
               
-                Git分支实践
+                Redis实例集合的高可用Sentinel(二)机制详解
               
             
           </h1>
@@ -351,8 +354,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-01T15:19:27+08:00">
-                2017-04-01
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-09T23:43:27+08:00">
+                2018-01-09
               </time>
             
 
@@ -392,7 +395,7 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a class="cloud-tie-join-count" href="/2017/04/01/Git分支实践/#comments" itemprop="discussionUrl">
+                <a class="cloud-tie-join-count" href="/2018/01/09/Sentinel详解/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count join-count" itemprop="commentCount"></span>
                 </a>
               </span>
@@ -401,7 +404,7 @@
 
           
           
-             <span id="/2017/04/01/Git分支实践/" class="leancloud_visitors" data-flag-title="Git分支实践">
+             <span id="/2018/01/09/Sentinel详解/" class="leancloud_visitors" data-flag-title="Redis实例集合的高可用Sentinel(二)机制详解">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -430,74 +433,55 @@
       
 
       
-        <h5 id="分支策略"><a href="#分支策略" class="headerlink" title="分支策略"></a>分支策略</h5><blockquote>
-<p>在开发软件时，可能有多人同时为同一个软件开发功能或修复BUG，可能存在多个Release版本，并且需要对各个版本进行维护。分支是为了将修改记录的整体流程分叉保存。分叉后的分支不受其他分支的影响，所以在同一个数据库里可以同时进行多个修改。</p>
+        <blockquote>
+<p>本文完成使用了<a href="https://segmentfault.com/a/1190000002680804" target="_blank" rel="external">Redis Sentinel机制与用法（一）</a> 中对Sentinel的翻译。</p>
+<p><a href="https://redis.io/topics/sentinel" target="_blank" rel="external">Redis Sentinel Documentation</a></p>
 </blockquote>
-<p>简单来说，在项目开发中使用多个分支会带来额外的管理和维护开销，但是多个分支对于项目的团队合作、新功能开发和发布管理都是有一定好处的。不同的团队可以根据团队人员组成和意愿、项目的发布周期等因素选择最适合的策略，找到最适合团队的管理方式。本文将介绍三种常见的 Git 分支管理方式。</p>
+<p>官方文档已经很详细介绍了，附上中文的翻译文章；</p>
+<h3 id="Sentinel的选举制度"><a href="#Sentinel的选举制度" class="headerlink" title="Sentinel的选举制度"></a>Sentinel的选举制度</h3><p>前面我们谈到，当一个master被sentinel集群监控时，需要为它指定一个参数，这个参数指定了当需要判决master为不可用，并且进行failover时，所需要的sentinel数量，本文中我们暂时称这个参数为票数</p>
+<p>不过，当failover主备切换真正被触发后，failover并不会马上进行，还需要sentinel中的大多数sentinel授权后才可以进行failover。<br>当ODOWN时，failover被触发。failover一旦被触发，尝试去进行failover的sentinel会去获得“大多数”sentinel的授权（如果票数比大多数还要大的时候，则询问更多的sentinel)<br>这个区别看起来很微妙，但是很容易理解和使用。例如，集群中有5个sentinel，票数被设置为2，当2个sentinel认为一个master已经不可用了以后，将会触发failover，但是，进行failover的那个sentinel必须先获得至少3个sentinel的授权才可以实行failover。<br>如果票数被设置为5，要达到ODOWN状态，必须所有5个sentinel都主观认为master为不可用，要进行failover，那么得获得所有5个sentinel的授权。</p>
 <a id="more"></a>
-<h6 id="单主干的分支实践（Trunk-based-development，TBD）。"><a href="#单主干的分支实践（Trunk-based-development，TBD）。" class="headerlink" title="单主干的分支实践（Trunk-based development，TBD）。"></a>单主干的分支实践（Trunk-based development，TBD）。</h6><p>Google 和 Facebook 都使用这种方式。trunk 是 SVN 中主干分支的名称，对应到 Git 中则是 master 分支。TBD 的特点是所有团队成员都在单个主干分支上进行开发。当需要发布时，先考虑使用标签（tag），即 tag 某个 commit 来作为发布的版本。如果仅靠 tag 不能满足要求，则从主干分支创建发布分支。bug修复在主干分支中进行，再 cherry-pick 到发布分支。</p>
-<p>由于所有开发人员都在同一个分支上工作，团队需要合理的分工和充分的沟通来保证不同开发人员的代码尽可能少的发生冲突。持续集成和自动化测试是必要的，用来及时发现主干分支中的 bug。因为主干分支是所有开发人员公用的，一个开发人员引入的 bug 可能对其他很多人造成影响。不过好处是由于分支所带来的额外开销非常小。开发人员不需要频繁在不同的分支之间切换。</p>
-<h6 id="GitHub-flow"><a href="#GitHub-flow" class="headerlink" title="GitHub flow"></a>GitHub flow</h6><p>GitHub flow 是 GitHub 所使用的一种简单的流程。该流程只使用两类分支，并依托于 GitHub 的 pull request 功能。在 GitHub flow 中，master 分支中包含稳定的代码。该分支已经或即将被部署到生产环境。master 分支的作用是提供一个稳定可靠的代码基础。任何开发人员都不允许把未测试或未审查的代码直接提交到 master 分支。</p>
-<p>GitHub flow 的好处在于非常简单实用。开发人员需要注意的事项非常少，很容易形成习惯。当需要进行任何修改时，总是从 master 分支创建新分支。完成之后通过 pull request 和相关的代码审查来合并回 master 分支。GitHub flow 要求项目有完善的自动化测试、持续集成和部署等相关的基础设施。每个新分支都需要测试和部署，如果这些不能自动化进行，会增加开发人员的工作量，导致无法有效地实施该流程。这种分支实践也要求团队有代码审查的相应流程。</p>
-<h6 id="Git-flow"><a href="#Git-flow" class="headerlink" title="Git-flow"></a><strong>Git-flow</strong></h6><p>git-flow 应该是目前流传最广的 Git 分支管理实践.</p>
-<p>git-flow 流程中包含 5 类分支，分别是 master、develop、新功能分支（feature）、发布分支（release）和 hotfix。</p>
-<blockquote>
-<p> 主要分支</p>
-</blockquote>
-<p>master: 永远处在即将发布(production-ready)状态</p>
-<p>develop: 最新的开发状态</p>
-<blockquote>
-<p> 辅助分支</p>
-</blockquote>
-<p>feature: 开发新功能的分支, 基于 </p>
-<p>develop, 完成后 merge 回 develop</p>
-<p>release: 准备要发布版本的分支, 用来修复 bug. 基于 develop,完成后 merge 回 develop 和master</p>
-<p>hotfix: 修复 master 上的问题, 等不及 release版本就必须马上上线. 基于 master, 完成后 merge 回 master 和 develop</p>
-<p>对于开发过程中的不同任务，需要在对应的分支上进行工作并正确地进行合并。每个任务开始前需要按照指定的步骤完成分支的创建。例如当需要开发一个新的功能时，基本的流程如下：</p>
-<ol>
-<li><p>从 develop 分支创建一个新的feature 分支，如feature/my-awesome-feature。</p>
-</li>
-<li><p>在该 feature 分支上进行开发，提交代码，push 到远端仓库。</p>
-</li>
-<li><p>当代码完成之后，合并到 develop 分支并删除当前 feature 分支。</p>
-</li>
-</ol>
-<p>在进行版本发布和 hotfix 时也有类似的流程。当需要发布新版本时，采用的是如下的流程：</p>
-<ol>
-<li><p>从 develop 分支创建一个新的 release 分支，如 release/1.4。</p>
-</li>
-<li><p>把 release分支部署到持续集成服务器上进行测试。测试包括自动化集成测试和手动的用户接受测试。</p>
-</li>
-<li><p>对于测试中发现的问题，直接在 release 分支上提交修改。完成修改之后再次部署和测试。</p>
-</li>
-<li>当 release分支中的代码通过测试之后，把 release 分支合并到 develop 和 master 分支，并在 master 分支上添加相应的 tag. </li>
-</ol>
-<p>因为 git-flow相关的流程比较繁琐和难以记忆，在实践中一般使用辅助脚本来完成相关的工作。比如同样的开发新功能的任务，可以使用git flow 工具，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git flow feature start my-awesome-feature</div></pre></td></tr></table></figure></p>
-<p>来完成新分支的创建，使用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git flow feature finish my-awesome-feature</div></pre></td></tr></table></figure></p>
-<p>来结束 feature 分支。辅助脚本会完成正确的分支创建、切换和合并等工作。</p>
-<h5 id="分支合并"><a href="#分支合并" class="headerlink" title="分支合并"></a>分支合并</h5><blockquote>
-<p>当有了分支，分支的管理是一项非常重要的操作。其他管理命令已经至了，而合并是最常见的并且麻烦的操作，有必要单独了解一下。</p>
-</blockquote>
-<h6 id="Git-Merge"><a href="#Git-Merge" class="headerlink" title="Git Merge"></a>Git Merge</h6><p>将master分支合并到feature分支最简单的办法就是用下面这些命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git checkout feature</div><div class="line">git merge master --no-ff</div></pre></td></tr></table></figure></p>
-<p>这里稍微解释一下，上一条命令的–no-ff参数是什么意思。默认情况下，Git执行”快进式合并”（fast-farward merge），</p>
-<p>合并feature分支到master分支时，如果master分支的状态没有被更改过，那么这个合并是非常简单的。feature分支的历史记录包含master分支所有的历史记录，所以通过把master分支的位置移动到feature的最新分支上，Git就会合并。这样的合并被称为fast-forward（快进）合并。</p>
-<p>而使用–no-ff参数后,会执行正常合并，在Master分支上生成一个新节点。为了保证版本演进的清晰，我们希望采用这种做法。</p>
-<h6 id="Git-Rebase"><a href="#Git-Rebase" class="headerlink" title="Git Rebase"></a>Git Rebase</h6><p>作为merge的替代选择，你可以像下面这样将feature分支并入master分支：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git checkout feature</div><div class="line">git rebase master</div></pre></td></tr></table></figure></p>
-<p>它会把整个feature分支移动到master分支的后面，有效地把所有master分支上新的提交并入过来。但是，rebase为原分支上每一个提交创建一个新的提交，重写了项目历史，并且不会带来合并提交。</p>
-<p>merge<br>保持修改内容的历史记录，但是历史记录会很复杂。</p>
-<p>rebase不会有合并提交中附带的信息——你看不到feature分支中并入了上游的哪些更改。</p>
-<p>rebase<br>历史记录简单，是在原有提交的基础上将差异内容反映进去。<br>因此，可能导致原本的提交内容无法正常运行。<br>您可以根据开发团队的需要分别使用merge和rebase。</p>
-<p>你理解rebase是什么的时候，最重要的就是什么时候 不能 用rebase。</p>
-<hr>
-<p><strong><em>Git Rebase的黄金法则便是，绝不要在公共的分支上使用它。</em></strong></p>
-<hr>
-<p>例如，想简化历史记录，</p>
-<ol>
-<li><p>在topic分支中更新merge分支的最新代码，请使用rebase。</p>
-</li>
-<li><p>向merge分支导入topic分支的话，先使用rebase，再使用merge。</p>
-</li>
-</ol>
+<h3 id="配置版本号"><a href="#配置版本号" class="headerlink" title="配置版本号"></a>配置版本号</h3><p>为什么要先获得大多数sentinel的认可时才能真正去执行failover呢？</p>
+<p>当一个sentinel被授权后，它将会获得宕掉的master的一份最新配置版本号，当failover执行结束以后，这个版本号将会被用于最新的配置。因为大多数sentinel都已经知道该版本号已经被要执行failover的sentinel拿走了，所以其他的sentinel都不能再去使用这个版本号。这意味着，每次failover都会附带有一个独一无二的版本号。我们将会看到这样做的重要性。</p>
+<p>而且，sentinel集群都遵守一个规则：如果sentinel A推荐sentinel B去执行failover，B会等待一段时间后，自行再次去对同一个master执行failover，这个等待的时间是通过failover-timeout配置项去配置的。从这个规则可以看出，sentinel集群中的sentinel不会再同一时刻并发去failover同一个master，第一个进行failover的sentinel如果失败了，另外一个将会在一定时间内进行重新进行failover，以此类推。</p>
+<p>redis sentinel保证了活跃性：如果大多数sentinel能够互相通信，最终将会有一个被授权去进行failover.<br>redis sentinel也保证了安全性：每个试图去failover同一个master的sentinel都会得到一个独一无二的版本号。</p>
+<p>配置传播<br>一旦一个sentinel成功地对一个master进行了failover，它将会把关于master的最新配置通过广播形式通知其它sentinel，其它的sentinel则更新对应master的配置。</p>
+<p>一个faiover要想被成功实行，sentinel必须能够向选为master的slave发送SLAVE OF NO ONE命令，然后能够通过INFO命令看到新master的配置信息。</p>
+<p>当将一个slave选举为master并发送SLAVE OF NO ONE`后，即使其它的slave还没针对新master重新配置自己，failover也被认为是成功了的，然后所有sentinels将会发布新的配置信息。</p>
+<p>新配在集群中相互传播的方式，就是为什么我们需要当一个sentinel进行failover时必须被授权一个版本号的原因。</p>
+<p>每个sentinel使用##发布/订阅##的方式持续地传播master的配置版本信息，配置传播的##发布/订阅##管道是：<strong>sentinel</strong>:hello。</p>
+<p>因为每一个配置都有一个版本号，所以以版本号最大的那个为标准。</p>
+<p>举个栗子：假设有一个名为mymaster的地址为192.168.1.50:6379。一开始，集群中所有的sentinel都知道这个地址，于是为mymaster的配置打上版本号1。一段时候后mymaster死了，有一个sentinel被授权用版本号2对其进行failover。如果failover成功了，假设地址改为了192.168.1.50:9000，此时配置的版本号为2，进行failover的sentinel会将新配置广播给其他的sentinel，由于其他sentinel维护的版本号为1，发现新配置的版本号为2时，版本号变大了，说明配置更新了，于是就会采用最新的版本号为2的配置。</p>
+<p>这意味着sentinel集群保证了第二种活跃性：一个能够互相通信的sentinel集群最终会采用版本号最高且相同的配置。</p>
+<h3 id="SDOWN和ODOWN的更多细节"><a href="#SDOWN和ODOWN的更多细节" class="headerlink" title="SDOWN和ODOWN的更多细节"></a>SDOWN和ODOWN的更多细节</h3><p>sentinel对于不可用有两种不同的看法，一个叫主观不可用(SDOWN),另外一个叫客观不可用(ODOWN)。SDOWN是sentinel自己主观上检测到的关于master的状态，ODOWN需要一定数量的sentinel达成一致意见才能认为一个master客观上已经宕掉，各个sentinel之间通过命令SENTINEL is_master_down_by_addr来获得其它sentinel对master的检测结果。</p>
+<p>从sentinel的角度来看，如果发送了PING心跳后，在一定时间内没有收到合法的回复，就达到了SDOWN的条件。这个时间在配置中通过is-master-down-after-milliseconds参数配置。</p>
+<p>当sentinel发送PING后，以下回复之一都被认为是合法的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">PING replied with +PONG.</div><div class="line">PING replied with -LOADING error.</div><div class="line">PING replied with -MASTERDOWN error.</div></pre></td></tr></table></figure></p>
+<p>其它任何回复（或者根本没有回复）都是不合法的。</p>
+<p>从SDOWN切换到ODOWN不需要任何一致性算法，只需要一个gossip协议：如果一个sentinel收到了足够多的sentinel发来消息告诉它某个master已经down掉了，SDOWN状态就会变成ODOWN状态。如果之后master可用了，这个状态就会相应地被清理掉。</p>
+<p>正如之前已经解释过了，真正进行failover需要一个授权的过程，但是所有的failover都开始于一个ODOWN状态。</p>
+<p>ODOWN状态只适用于master，对于不是master的redis节点sentinel之间不需要任何协商，slaves和sentinel不会有ODOWN状态。</p>
+<h3 id="Sentinel之间和Slaves之间的自动发现机制"><a href="#Sentinel之间和Slaves之间的自动发现机制" class="headerlink" title="Sentinel之间和Slaves之间的自动发现机制"></a>Sentinel之间和Slaves之间的自动发现机制</h3><p>虽然sentinel集群中各个sentinel都互相连接彼此来检查对方的可用性以及互相发送消息。但是你不用在任何一个sentinel配置任何其它的sentinel的节点。因为sentinel利用了master的发布/订阅机制去自动发现其它也监控了统一master的sentinel节点。</p>
+<p>通过向名为<strong>sentinel</strong>:hello的管道中发送消息来实现。</p>
+<p>同样，你也不需要在sentinel中配置某个master的所有slave的地址，sentinel会通过询问master来得到这些slave的地址的。</p>
+<p>每个sentinel通过向每个master和slave的发布/订阅频道<strong>sentinel</strong>:hello每秒发送一次消息，来宣布它的存在。<br>每个sentinel也订阅了每个master和slave的频道<strong>sentinel</strong>:hello的内容，来发现未知的sentinel，当检测到了新的sentinel，则将其加入到自身维护的master监控列表中。<br>每个sentinel发送的消息中也包含了其当前维护的最新的master配置。如果某个sentinel发现<br>自己的配置版本低于接收到的配置版本，则会用新的配置更新自己的master配置。</p>
+<p>在为一个master添加一个新的sentinel前，sentinel总是检查是否已经有sentinel与新的sentinel的进程号或者是地址是一样的。如果是那样，这个sentinel将会被删除，而把新的sentinel添加上去。</p>
+<p>网络隔离时的一致性<br>redis sentinel集群的配置的一致性模型为最终一致性，集群中每个sentinel最终都会采用最高版本的配置。然而，在实际的应用环境中，有三个不同的角色会与sentinel打交道：</p>
+<p>Redis实例.</p>
+<p>Sentinel实例.</p>
+<p>客户端.</p>
+<p>为了考察整个系统的行为我们必须同时考虑到这三个角色。</p>
+<p>下面有个简单的例子，有三个主机，每个主机分别运行一个redis和一个sentinel:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">           +-------------+</div><div class="line">            | Sentinel 1  | &lt;--- Client A</div><div class="line">            | Redis 1 (M) |</div><div class="line">            +-------------+</div><div class="line">                    |</div><div class="line">                    |</div><div class="line">+-------------+     |                     +------------+</div><div class="line">| Sentinel 2  |-----+-- / partition / ----| Sentinel 3 | &lt;--- Client B</div><div class="line">| Redis 2 (S) |                           | Redis 3 (M)|</div><div class="line">+-------------+                           +------------+</div></pre></td></tr></table></figure></p>
+<p>在这个系统中，初始状态下redis3是master, redis1和redis2是slave。之后redis3所在的主机网络不可用了，sentinel1和sentinel2启动了failover并把redis1选举为master。</p>
+<p>Sentinel集群的特性保证了sentinel1和sentinel2得到了关于master的最新配置。但是sentinel3依然持着的是就的配置，因为它与外界隔离了。</p>
+<p>当网络恢复以后，我们知道sentinel3将会更新它的配置。但是，如果客户端所连接的master被网络隔离，会发生什么呢？</p>
+<p>客户端将依然可以向redis3写数据，但是当网络恢复后，redis3就会变成redis的一个slave，那么，在网络隔离期间，客户端向redis3写的数据将会丢失。</p>
+<p>也许你不会希望这个场景发生：</p>
+<p>如果你把redis当做缓存来使用，那么你也许能容忍这部分数据的丢失。</p>
+<p>但如果你把redis当做一个存储系统来使用，你也许就无法容忍这部分数据的丢失了。</p>
+<p>因为redis采用的是异步复制，在这样的场景下，没有办法避免数据的丢失。然而，你可以通过以下配置来配置redis3和redis1，使得数据不会丢失。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">min-slaves-to-write 1</div><div class="line"></div><div class="line">min-slaves-max-lag 10</div></pre></td></tr></table></figure>
+<p>通过上面的配置，当一个redis是master时，如果它不能向至少一个slave写数据(上面的min-slaves-to-write指定了slave的数量)，它将会拒绝接受客户端的写请求。由于复制是异步的，master无法向slave写数据意味着slave要么断开连接了，要么不在指定时间内向master发送同步数据的请求了(上面的min-slaves-max-lag指定了这个时间)。</p>
+<h3 id="Sentinel状态持久化"><a href="#Sentinel状态持久化" class="headerlink" title="Sentinel状态持久化"></a>Sentinel状态持久化</h3><p>snetinel的状态会被持久化地写入sentinel的配置文件中。每次当收到一个新的配置时，或者新创建一个配置时，配置会被持久化到硬盘中，并带上配置的版本戳。这意味着，可以安全的停止和重启sentinel进程。</p>
 
       
     </div>
@@ -542,7 +526,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Git/" rel="tag"># Git</a>
+            <a href="/tags/Redis-Sentinel-Redis高可用/" rel="tag"># Redis,Sentinel,Redis高可用</a>
           
         </div>
       
@@ -555,8 +539,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/15/Hexo博客搭建过程记录/" rel="next" title="Hexo博客搭建过程记录">
-                <i class="fa fa-chevron-left"></i> Hexo博客搭建过程记录
+              <a href="/2018/01/09/Sentinel介绍以及配置/" rel="next" title="Redis单例集合的高可用Sentinel(一) 介绍以及配置">
+                <i class="fa fa-chevron-left"></i> Redis单例集合的高可用Sentinel(一) 介绍以及配置
               </a>
             
           </div>
@@ -565,8 +549,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/04/01/初识Git/" rel="prev" title="初识Git">
-                初识Git <i class="fa fa-chevron-right"></i>
+              <a href="/2018/01/09/Sentinel实践以及部署/" rel="prev" title="Redis实例集合的高可用Sentinel(三)实践以及部署">
+                Redis实例集合的高可用Sentinel(三)实践以及部署 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -718,7 +702,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#分支策略"><span class="nav-number">1.</span> <span class="nav-text">分支策略</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#单主干的分支实践（Trunk-based-development，TBD）。"><span class="nav-number">1.1.</span> <span class="nav-text">单主干的分支实践（Trunk-based development，TBD）。</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#GitHub-flow"><span class="nav-number">1.2.</span> <span class="nav-text">GitHub flow</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Git-flow"><span class="nav-number">1.3.</span> <span class="nav-text">Git-flow</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#分支合并"><span class="nav-number">2.</span> <span class="nav-text">分支合并</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Git-Merge"><span class="nav-number">2.1.</span> <span class="nav-text">Git Merge</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Git-Rebase"><span class="nav-number">2.2.</span> <span class="nav-text">Git Rebase</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Sentinel的选举制度"><span class="nav-number">1.</span> <span class="nav-text">Sentinel的选举制度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置版本号"><span class="nav-number">2.</span> <span class="nav-text">配置版本号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SDOWN和ODOWN的更多细节"><span class="nav-number">3.</span> <span class="nav-text">SDOWN和ODOWN的更多细节</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sentinel之间和Slaves之间的自动发现机制"><span class="nav-number">4.</span> <span class="nav-text">Sentinel之间和Slaves之间的自动发现机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sentinel状态持久化"><span class="nav-number">5.</span> <span class="nav-text">Sentinel状态持久化</span></a></li></ol></div>
             
 
           </div>
