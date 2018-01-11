@@ -119,7 +119,7 @@
 
 
 
-  <title>Redis实例集合的高可用Sentinel(二)机制详解 | RenGang</title>
+  <title>Logrotate日志管理 | RenGang</title>
   
 
 
@@ -303,7 +303,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://rengang.me/2018/01/09/Sentinel详解/">
+    <link itemprop="mainEntityOfPage" href="http://rengang.me/2018/01/10/logrotate/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Ren Gang">
@@ -320,7 +320,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">Redis实例集合的高可用Sentinel(二)机制详解</h2>
+          <h2 class="post-title" itemprop="name headline">Logrotate日志管理</h2>
         
 
         <div class="post-meta">
@@ -332,7 +332,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-09T23:43:27+08:00">2018-01-09</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-10T13:38:23+08:00">2018-01-10</time>
             
 
             
@@ -370,7 +370,7 @@
 
           
           
-             <span id="/2018/01/09/Sentinel详解/" class="leancloud_visitors" data-flag-title="Redis实例集合的高可用Sentinel(二)机制详解">
+             <span id="/2018/01/10/logrotate/" class="leancloud_visitors" data-flag-title="Logrotate日志管理">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -401,55 +401,27 @@
       
 
       
-        <blockquote>
-<p>本文完成使用了<a href="https://segmentfault.com/a/1190000002680804" target="_blank" rel="external">Redis Sentinel机制与用法（一）</a> 中对Sentinel的翻译。</p>
-<p><a href="https://redis.io/topics/sentinel" target="_blank" rel="external">Redis Sentinel Documentation</a></p>
-</blockquote>
-<p>官方文档已经很详细介绍了，附上中文的翻译文章；</p>
-<h3 id="Sentinel的选举制度"><a href="#Sentinel的选举制度" class="headerlink" title="Sentinel的选举制度"></a>Sentinel的选举制度</h3><p>前面我们谈到，当一个master被sentinel集群监控时，需要为它指定一个参数，这个参数指定了当需要判决master为不可用，并且进行failover时，所需要的sentinel数量，本文中我们暂时称这个参数为票数</p>
-<p>不过，当failover主备切换真正被触发后，failover并不会马上进行，还需要sentinel中的大多数sentinel授权后才可以进行failover。<br>当ODOWN时，failover被触发。failover一旦被触发，尝试去进行failover的sentinel会去获得“大多数”sentinel的授权（如果票数比大多数还要大的时候，则询问更多的sentinel)<br>这个区别看起来很微妙，但是很容易理解和使用。例如，集群中有5个sentinel，票数被设置为2，当2个sentinel认为一个master已经不可用了以后，将会触发failover，但是，进行failover的那个sentinel必须先获得至少3个sentinel的授权才可以实行failover。<br>如果票数被设置为5，要达到ODOWN状态，必须所有5个sentinel都主观认为master为不可用，要进行failover，那么得获得所有5个sentinel的授权。</p>
+        <h4 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h4><p>Logrotate (logrotate - rotates, compresses, and mails system logs) 可以对单个日志文件或者某个目录下的文件按时间/大小进行切割，压缩操作；指定日志保存数量；还可以在切割之后运行自定义命令。<br>Logrotate 是默认安装的，一般会定时运行 logrotate，通常是每天一次；会通过 crontab 运行，也就是直接运行 /etc/cron.daily/logrotate 脚本。</p>
+<h4 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">compress                                   通过gzip 压缩转储以后的日志</div><div class="line">nocompress                                不做gzip压缩处理</div><div class="line">copytruncate                              用于还在打开中的日志文件，把当前日志备份并截断；是先拷贝再清空的方式，拷贝和清空之间有一个时间差，可能会丢失部分日志数据。</div><div class="line">nocopytruncate                           备份日志文件不过不截断</div><div class="line">create mode owner group             轮转时指定创建新文件的属性，如create 0777 nobody nobody</div><div class="line">nocreate                                    不建立新的日志文件</div><div class="line">delaycompress                           和compress 一起使用时，转储的日志文件到下一次转储时才压缩</div><div class="line">nodelaycompress                        覆盖 delaycompress 选项，转储同时压缩。</div><div class="line">missingok                                 如果日志丢失，不报错继续滚动下一个日志</div><div class="line">errors address                           专储时的错误信息发送到指定的Email 地址</div><div class="line">ifempty                                    即使日志文件为空文件也做轮转，这个是logrotate的缺省选项。</div><div class="line">notifempty                               当日志文件为空时，不进行轮转</div><div class="line">mail address                             把转储的日志文件发送到指定的E-mail 地址</div><div class="line">nomail                                     转储时不发送日志文件</div><div class="line">olddir directory                         转储后的日志文件放入指定的目录，必须和当前日志文件在同一个文件系统</div><div class="line">noolddir                                   转储后的日志文件和当前日志文件放在同一个目录下</div><div class="line">sharedscripts                           运行postrotate脚本，作用是在所有日志都轮转后统一执行一次脚本。如果没有配置这个，那么每个日志轮转后都会执行一次脚本</div><div class="line">prerotate                                 在logrotate转储之前需要执行的指令，例如修改文件的属性等动作；必须独立成行</div><div class="line">postrotate                               在logrotate转储之后需要执行的指令，例如重新启动 (kill -HUP) 某个服务！必须独立成行</div><div class="line">daily                                       指定转储周期为每天</div><div class="line">weekly                                    指定转储周期为每周</div><div class="line">monthly                                  指定转储周期为每月</div><div class="line">rotate count                            指定日志文件删除之前转储的次数，0 指没有备份，5 指保留5 个备份</div><div class="line">dateext                                  使用当期日期作为命名格式</div><div class="line">dateformat .%s                       配合dateext使用，紧跟在下一行出现，定义文件切割后的文件名，必须配合dateext使用，只支持 %Y %m %d %s 这四个参数</div><div class="line">size(或minsize) log-size            当日志文件到达指定的大小时才转储，log-size能指定bytes(缺省)及KB (sizek)或MB(sizem).</div><div class="line">当日志文件 &gt;= log-size 的时候就转储。 以下为合法格式：（其他格式的单位大小写没有试过）</div><div class="line">size = 5 或 size 5 （&gt;= 5 个字节就转储）</div><div class="line">size = 100k 或 size 100k</div><div class="line">size = 100M 或 size 100M</div></pre></td></tr></table></figure>
 <a id="more"></a>
-<h3 id="配置版本号"><a href="#配置版本号" class="headerlink" title="配置版本号"></a>配置版本号</h3><p>为什么要先获得大多数sentinel的认可时才能真正去执行failover呢？</p>
-<p>当一个sentinel被授权后，它将会获得宕掉的master的一份最新配置版本号，当failover执行结束以后，这个版本号将会被用于最新的配置。因为大多数sentinel都已经知道该版本号已经被要执行failover的sentinel拿走了，所以其他的sentinel都不能再去使用这个版本号。这意味着，每次failover都会附带有一个独一无二的版本号。我们将会看到这样做的重要性。</p>
-<p>而且，sentinel集群都遵守一个规则：如果sentinel A推荐sentinel B去执行failover，B会等待一段时间后，自行再次去对同一个master执行failover，这个等待的时间是通过failover-timeout配置项去配置的。从这个规则可以看出，sentinel集群中的sentinel不会再同一时刻并发去failover同一个master，第一个进行failover的sentinel如果失败了，另外一个将会在一定时间内进行重新进行failover，以此类推。</p>
-<p>redis sentinel保证了活跃性：如果大多数sentinel能够互相通信，最终将会有一个被授权去进行failover.<br>redis sentinel也保证了安全性：每个试图去failover同一个master的sentinel都会得到一个独一无二的版本号。</p>
-<p>配置传播<br>一旦一个sentinel成功地对一个master进行了failover，它将会把关于master的最新配置通过广播形式通知其它sentinel，其它的sentinel则更新对应master的配置。</p>
-<p>一个faiover要想被成功实行，sentinel必须能够向选为master的slave发送SLAVE OF NO ONE命令，然后能够通过INFO命令看到新master的配置信息。</p>
-<p>当将一个slave选举为master并发送SLAVE OF NO ONE`后，即使其它的slave还没针对新master重新配置自己，failover也被认为是成功了的，然后所有sentinels将会发布新的配置信息。</p>
-<p>新配在集群中相互传播的方式，就是为什么我们需要当一个sentinel进行failover时必须被授权一个版本号的原因。</p>
-<p>每个sentinel使用##发布/订阅##的方式持续地传播master的配置版本信息，配置传播的##发布/订阅##管道是：<strong>sentinel</strong>:hello。</p>
-<p>因为每一个配置都有一个版本号，所以以版本号最大的那个为标准。</p>
-<p>举个栗子：假设有一个名为mymaster的地址为192.168.1.50:6379。一开始，集群中所有的sentinel都知道这个地址，于是为mymaster的配置打上版本号1。一段时候后mymaster死了，有一个sentinel被授权用版本号2对其进行failover。如果failover成功了，假设地址改为了192.168.1.50:9000，此时配置的版本号为2，进行failover的sentinel会将新配置广播给其他的sentinel，由于其他sentinel维护的版本号为1，发现新配置的版本号为2时，版本号变大了，说明配置更新了，于是就会采用最新的版本号为2的配置。</p>
-<p>这意味着sentinel集群保证了第二种活跃性：一个能够互相通信的sentinel集群最终会采用版本号最高且相同的配置。</p>
-<h3 id="SDOWN和ODOWN的更多细节"><a href="#SDOWN和ODOWN的更多细节" class="headerlink" title="SDOWN和ODOWN的更多细节"></a>SDOWN和ODOWN的更多细节</h3><p>sentinel对于不可用有两种不同的看法，一个叫主观不可用(SDOWN),另外一个叫客观不可用(ODOWN)。SDOWN是sentinel自己主观上检测到的关于master的状态，ODOWN需要一定数量的sentinel达成一致意见才能认为一个master客观上已经宕掉，各个sentinel之间通过命令SENTINEL is_master_down_by_addr来获得其它sentinel对master的检测结果。</p>
-<p>从sentinel的角度来看，如果发送了PING心跳后，在一定时间内没有收到合法的回复，就达到了SDOWN的条件。这个时间在配置中通过is-master-down-after-milliseconds参数配置。</p>
-<p>当sentinel发送PING后，以下回复之一都被认为是合法的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">PING replied with +PONG.</div><div class="line">PING replied with -LOADING error.</div><div class="line">PING replied with -MASTERDOWN error.</div></pre></td></tr></table></figure></p>
-<p>其它任何回复（或者根本没有回复）都是不合法的。</p>
-<p>从SDOWN切换到ODOWN不需要任何一致性算法，只需要一个gossip协议：如果一个sentinel收到了足够多的sentinel发来消息告诉它某个master已经down掉了，SDOWN状态就会变成ODOWN状态。如果之后master可用了，这个状态就会相应地被清理掉。</p>
-<p>正如之前已经解释过了，真正进行failover需要一个授权的过程，但是所有的failover都开始于一个ODOWN状态。</p>
-<p>ODOWN状态只适用于master，对于不是master的redis节点sentinel之间不需要任何协商，slaves和sentinel不会有ODOWN状态。</p>
-<h3 id="Sentinel之间和Slaves之间的自动发现机制"><a href="#Sentinel之间和Slaves之间的自动发现机制" class="headerlink" title="Sentinel之间和Slaves之间的自动发现机制"></a>Sentinel之间和Slaves之间的自动发现机制</h3><p>虽然sentinel集群中各个sentinel都互相连接彼此来检查对方的可用性以及互相发送消息。但是你不用在任何一个sentinel配置任何其它的sentinel的节点。因为sentinel利用了master的发布/订阅机制去自动发现其它也监控了统一master的sentinel节点。</p>
-<p>通过向名为<strong>sentinel</strong>:hello的管道中发送消息来实现。</p>
-<p>同样，你也不需要在sentinel中配置某个master的所有slave的地址，sentinel会通过询问master来得到这些slave的地址的。</p>
-<p>每个sentinel通过向每个master和slave的发布/订阅频道<strong>sentinel</strong>:hello每秒发送一次消息，来宣布它的存在。<br>每个sentinel也订阅了每个master和slave的频道<strong>sentinel</strong>:hello的内容，来发现未知的sentinel，当检测到了新的sentinel，则将其加入到自身维护的master监控列表中。<br>每个sentinel发送的消息中也包含了其当前维护的最新的master配置。如果某个sentinel发现<br>自己的配置版本低于接收到的配置版本，则会用新的配置更新自己的master配置。</p>
-<p>在为一个master添加一个新的sentinel前，sentinel总是检查是否已经有sentinel与新的sentinel的进程号或者是地址是一样的。如果是那样，这个sentinel将会被删除，而把新的sentinel添加上去。</p>
-<p>网络隔离时的一致性<br>redis sentinel集群的配置的一致性模型为最终一致性，集群中每个sentinel最终都会采用最高版本的配置。然而，在实际的应用环境中，有三个不同的角色会与sentinel打交道：</p>
-<p>Redis实例.</p>
-<p>Sentinel实例.</p>
-<p>客户端.</p>
-<p>为了考察整个系统的行为我们必须同时考虑到这三个角色。</p>
-<p>下面有个简单的例子，有三个主机，每个主机分别运行一个redis和一个sentinel:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">           +-------------+</div><div class="line">            | Sentinel 1  | &lt;--- Client A</div><div class="line">            | Redis 1 (M) |</div><div class="line">            +-------------+</div><div class="line">                    |</div><div class="line">                    |</div><div class="line">+-------------+     |                     +------------+</div><div class="line">| Sentinel 2  |-----+-- / partition / ----| Sentinel 3 | &lt;--- Client B</div><div class="line">| Redis 2 (S) |                           | Redis 3 (M)|</div><div class="line">+-------------+                           +------------+</div></pre></td></tr></table></figure></p>
-<p>在这个系统中，初始状态下redis3是master, redis1和redis2是slave。之后redis3所在的主机网络不可用了，sentinel1和sentinel2启动了failover并把redis1选举为master。</p>
-<p>Sentinel集群的特性保证了sentinel1和sentinel2得到了关于master的最新配置。但是sentinel3依然持着的是就的配置，因为它与外界隔离了。</p>
-<p>当网络恢复以后，我们知道sentinel3将会更新它的配置。但是，如果客户端所连接的master被网络隔离，会发生什么呢？</p>
-<p>客户端将依然可以向redis3写数据，但是当网络恢复后，redis3就会变成redis的一个slave，那么，在网络隔离期间，客户端向redis3写的数据将会丢失。</p>
-<p>也许你不会希望这个场景发生：</p>
-<p>如果你把redis当做缓存来使用，那么你也许能容忍这部分数据的丢失。</p>
-<p>但如果你把redis当做一个存储系统来使用，你也许就无法容忍这部分数据的丢失了。</p>
-<p>因为redis采用的是异步复制，在这样的场景下，没有办法避免数据的丢失。然而，你可以通过以下配置来配置redis3和redis1，使得数据不会丢失。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">min-slaves-to-write 1</div><div class="line"></div><div class="line">min-slaves-max-lag 10</div></pre></td></tr></table></figure>
-<p>通过上面的配置，当一个redis是master时，如果它不能向至少一个slave写数据(上面的min-slaves-to-write指定了slave的数量)，它将会拒绝接受客户端的写请求。由于复制是异步的，master无法向slave写数据意味着slave要么断开连接了，要么不在指定时间内向master发送同步数据的请求了(上面的min-slaves-max-lag指定了这个时间)。</p>
-<h3 id="Sentinel状态持久化"><a href="#Sentinel状态持久化" class="headerlink" title="Sentinel状态持久化"></a>Sentinel状态持久化</h3><p>snetinel的状态会被持久化地写入sentinel的配置文件中。每次当收到一个新的配置时，或者新创建一个配置时，配置会被持久化到硬盘中，并带上配置的版本戳。这意味着，可以安全的停止和重启sentinel进程。</p>
+<h3 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h3><p>默认使用 /etc/logrotate.conf 文件，作为全局配置，而不同应用的具体配置则在 /etc/logrotate.d 目录下，通常以应用程序的名称命名，例如 nginx、mysql、syslog、yum 等配置。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">/var/log/nginx/*.log /var/log/tomcat/*log &#123;   # 可以指定多个路径</div><div class="line">    daily                      # 日志轮询周期，weekly,monthly,yearly</div><div class="line">    rotate 30                  # 保存30天数据，超过的则删除</div><div class="line">    size +100M                 # 超过100M时分割，单位K,M,G，优先级高于daily</div><div class="line">    compress                   # 切割后压缩，也可以为nocompress</div><div class="line">    delaycompress              # 切割时对上次的日志文件进行压缩</div><div class="line">    dateext                    # 日志文件切割时添加日期后缀</div><div class="line">    missingok                  # 如果没有日志文件也不报错</div><div class="line">    notifempty                 # 日志为空时不进行切换，默认为ifempty</div><div class="line">    create 640 nginx nginx     # 使用该模式创建日志文件</div><div class="line">    sharedscripts              # 所有的文件切割之后只执行一次下面脚本</div><div class="line">    postrotate</div><div class="line">        if [ -f /var/run/nginx.pid ]; then</div><div class="line">            kill -USR1 `cat /var/run/nginx.pid`</div><div class="line">        fi</div><div class="line">    endscript</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>当配置完成后，可以通过如下方式进行测试。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">----- 可直接手动执行</div><div class="line">$ logrotate --force /etc/logrotate.d/nginx</div><div class="line"></div><div class="line">----- 显示详细的信息；而且--debug/-d实际上不会操作具体文件(Dry Run)</div><div class="line">$ logrotate --debug --verbose --force /etc/logrotate.d/nginx</div></pre></td></tr></table></figure></p>
+<h3 id="原理模式"><a href="#原理模式" class="headerlink" title="原理模式"></a>原理模式</h3><h5 id="普通create模式"><a href="#普通create模式" class="headerlink" title="普通create模式"></a>普通create模式</h5><p>默认方案没有名字，姑且叫它create吧。因为这个方案会创建一个新的日志文件给程序输出日志，而且第二个方案名copytruncate是个配置项，与create配置项是互斥的。</p>
+<p>这个方案的思路是重命名原日志文件，创建新的日志文件。详细步骤如下：</p>
+<p>重命名程序当前正在输出日志的程序。因为重命名只会修改目录文件的内容，而进程操作文件靠的是inode编号，所以并不影响程序继续输出日志。</p>
+<p>创建新的日志文件，文件名和原来日志文件一样。虽然新的日志文件和原来日志文件的名字一样，但是inode编号不一样，所以程序输出的日志还是往原日志文件输出。</p>
+<p>通过某些方式通知程序，重新打开日志文件。程序重新打开日志文件，靠的是文件路径而不是inode编号，所以打开的是新的日志文件。</p>
+<p>什么方式通知程序我重新打开日志呢，简单粗暴的方法是杀死进程重新打开。很多场景这种作法会影响在线的服务，于是有些程序提供了重新打开日志的接口，比如可以通过信号通知nginx。各种IPC方式都可以，前提是程序自身要支持这个功能。</p>
+<p>有个地方值得一提，一个程序可能输出了多个需要滚动的日志文件。每滚动一个就通知程序重新打开所有日志文件不太划得来。有个sharedscripts的参数，让程序把所有日志都重命名了以后，只通知一次。</p>
+<h5 id="copytruncate模式"><a href="#copytruncate模式" class="headerlink" title="copytruncate模式"></a>copytruncate模式</h5><p>如果程序不支持重新打开日志的功能，又不能粗暴地重启程序，怎么滚动日志呢？copytruncate的方案出场了。</p>
+<p>这个方案的思路是把正在输出的日志拷(copy)一份出来，再清空(trucate)原来的日志。详细步骤如下：</p>
+<p>拷贝程序当前正在输出的日志文件，保存文件名为滚动结果文件名。这期间程序照常输出日志到原来的文件中，原来的文件名也没有变。</p>
+<p>清空程序正在输出的日志文件。清空后程序输出的日志还是输出到这个日志文件中，因为清空文件只是把文件的内容删除了，文件的inode编号并没有发生变化，变化的是元信息中文件内容的信息。</p>
+<p>结果上看，旧的日志内容存在滚动的文件里，新的日志输出到空的文件里。实现了日志的滚动。</p>
+<p>这个方案有两个有趣的地方。</p>
+<p>文件清空并不影响到输出日志的程序的文件表里的文件位置信息，因为各进程的文件表是独立的。那么文件清空后，程序输出的日志应该接着之前日志的偏移位置输出，这个位置之前会被\0填充才对。但实际上logroate清空日志文件后，程序输出的日志都是从文件开始处开始写的。这是怎么做到的？这个问题让我纠结了很久，直到某天灵光一闪，这不是logrotate做的，而是成熟的写日志的方式，都是用O_APPEND的方式写的。如果程序没有用O_APPEND方式打开日志文件，变会出现copytruncate后日志文件前面会被一堆\0填充的情况。</p>
+<p>日志在拷贝完到清空文件这段时间内，程序输出的日志没有备份就清空了，这些日志不是丢了吗？是的，copytruncate有丢失部分日志内容的风险。所以能用create的方案就别用copytruncate。所以很多程序提供了通知我更新打开日志文件的功能来支持create方案，或者自己做了日志滚动，不依赖logrotate。</p>
 
       
     </div>
@@ -499,7 +471,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://rengang.me/2018/01/09/Sentinel详解/" title="Redis实例集合的高可用Sentinel(二)机制详解">http://rengang.me/2018/01/09/Sentinel详解/</a>
+    <a href="http://rengang.me/2018/01/10/logrotate/" title="Logrotate日志管理">http://rengang.me/2018/01/10/logrotate/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -514,11 +486,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Redis/" rel="tag"># Redis</a>
-          
-            <a href="/tags/Sentinel/" rel="tag"># Sentinel</a>
-          
-            <a href="/tags/Redis高可用/" rel="tag"># Redis高可用</a>
+            <a href="/tags/Logrotate/" rel="tag"># Logrotate</a>
           
         </div>
       
@@ -531,8 +499,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/01/09/Sentinel介绍以及配置/" rel="next" title="Redis单例集合的高可用Sentinel(一) 介绍以及配置">
-                <i class="fa fa-chevron-left"></i> Redis单例集合的高可用Sentinel(一) 介绍以及配置
+              <a href="/2018/01/09/Sentinel实践以及部署/" rel="next" title="Redis实例集合的高可用Sentinel(三)实践以及部署">
+                <i class="fa fa-chevron-left"></i> Redis实例集合的高可用Sentinel(三)实践以及部署
               </a>
             
           </div>
@@ -540,10 +508,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/01/09/Sentinel实践以及部署/" rel="prev" title="Redis实例集合的高可用Sentinel(三)实践以及部署">
-                Redis实例集合的高可用Sentinel(三)实践以及部署 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -679,7 +643,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Sentinel的选举制度"><span class="nav-number">1.</span> <span class="nav-text">Sentinel的选举制度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置版本号"><span class="nav-number">2.</span> <span class="nav-text">配置版本号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SDOWN和ODOWN的更多细节"><span class="nav-number">3.</span> <span class="nav-text">SDOWN和ODOWN的更多细节</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sentinel之间和Slaves之间的自动发现机制"><span class="nav-number">4.</span> <span class="nav-text">Sentinel之间和Slaves之间的自动发现机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sentinel状态持久化"><span class="nav-number">5.</span> <span class="nav-text">Sentinel状态持久化</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#介绍"><span class="nav-number">1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参数说明"><span class="nav-number">2.</span> <span class="nav-text">参数说明</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实践"><span class="nav-number"></span> <span class="nav-text">实践</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#原理模式"><span class="nav-number"></span> <span class="nav-text">原理模式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#普通create模式"><span class="nav-number">0.1.</span> <span class="nav-text">普通create模式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#copytruncate模式"><span class="nav-number">0.2.</span> <span class="nav-text">copytruncate模式</span></a></li></ol></li></ol></div>
             
 
           </div>

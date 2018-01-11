@@ -1,15 +1,22 @@
-<!doctype html>
+<!DOCTYPE html>
 
 
 
   
 
 
-<html class="theme-next mist use-motion" lang="zh-Hans">
+<html class="theme-next pisces use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
 
 
 
@@ -30,54 +37,7 @@
 
 
 
-  
-  
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
-
-
-
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-    
-      
-    
-
-    
-  
-
-  
-
-  
-    
-      
-    
-
-    
-  
-
-  
-    
-      
-    
-
-    
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
 
 
 
@@ -86,44 +46,42 @@
 
 <link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=6.0.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Git," />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.0.0">
 
 
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.0.0">
 
 
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.0.0">
 
 
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
-
-
-
+  <link rel="mask-icon" href="/images/logo.svg?v=6.0.0" color="#222">
 
 
 
-<meta name="description" content="Git的安装Git的安装非常简单，而且有很多资料，不介绍。
-Git的初始配置Git 提供了一个叫做 git config 的工，专门用来配置或读取相应的工作环境变量。而正是由这些环境变量，决定了 Git 在各个环节的具体工作方式和行为。这些变量可以存放在以下三个不同的地方：
 
-/etc/gitconfig 文件：系统中对所有用户都普遍适用的配置。若使用 git config 时用 –system">
-<meta property="og:type" content="article">
-<meta property="og:title" content="使用Git">
-<meta property="og:url" content="http://rengang.me/2017/04/01/使用Git/index.html">
+
+  <meta name="keywords" content="rengang, blog" />
+
+
+
+
+
+
+
+
+
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="RenGang">
+<meta property="og:url" content="http://rengang.me/404.html">
 <meta property="og:site_name" content="RenGang">
-<meta property="og:description" content="Git的安装Git的安装非常简单，而且有很多资料，不介绍。
-Git的初始配置Git 提供了一个叫做 git config 的工，专门用来配置或读取相应的工作环境变量。而正是由这些环境变量，决定了 Git 在各个环节的具体工作方式和行为。这些变量可以存放在以下三个不同的地方：
-
-/etc/gitconfig 文件：系统中对所有用户都普遍适用的配置。若使用 git config 时用 –system">
-<meta property="og:updated_time" content="2017-04-01T08:03:38.000Z">
+<meta property="og:updated_time" content="2017-08-11T08:15:57.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="使用Git">
-<meta name="twitter:description" content="Git的安装Git的安装非常简单，而且有很多资料，不介绍。
-Git的初始配置Git 提供了一个叫做 git config 的工，专门用来配置或读取相应的工作环境变量。而正是由这些环境变量，决定了 Git 在各个环节的具体工作方式和行为。这些变量可以存放在以下三个不同的地方：
-
-/etc/gitconfig 文件：系统中对所有用户都普遍适用的配置。若使用 git config 时用 –system">
+<meta name="twitter:title" content="RenGang">
 
 
 
@@ -131,12 +89,16 @@ Git的初始配置Git 提供了一个叫做 git config 的工，专门用来配�
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Mist',
-    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
-    fancybox: true,
-    motion: true,
+    scheme: 'Pisces',
+    version: '6.0.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"fadeIn"}},
     duoshuo: {
-      userId: 'undefined',
+      userId: '0',
       author: '博主'
     },
     algolia: {
@@ -151,17 +113,13 @@ Git的初始配置Git 提供了一个叫做 git config 的工，专门用来配�
 
 
 
-  <link rel="canonical" href="http://rengang.me/2017/04/01/使用Git/"/>
+  <link rel="canonical" href="http://rengang.me/404.html"/>
 
 
 
 
 
-  <title> 使用Git | RenGang </title>
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
+  <title>使用Git | RenGang</title>
   
 
 
@@ -180,22 +138,22 @@ Git的初始配置Git 提供了一个叫做 git config 的工，专门用来配�
 
 
 
+</head>
 
-
-
-
-
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
   
     
   
 
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
+    
+
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
+      <div class="header-inner"> <div class="site-brand-wrapper">
   <div class="site-meta ">
     
 
@@ -207,7 +165,7 @@ Git的初始配置Git 提供了一个叫做 git config 的工，专门用来配�
       </a>
     </div>
       
-        <p class="site-subtitle">骐骥一跃,不能十步；驽马十驾,功在不舍。</p>
+        <h1 class="site-subtitle" itemprop="description">骐骥一跃,不能十步；驽马十驾,功在不舍。</h1>
       
   </div>
 
@@ -232,7 +190,11 @@ Git的初始配置Git 提供了一个叫做 git config 的工，专门用来配�
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            首页
+
+            
+              首页
+            
+
           </a>
         </li>
       
@@ -242,7 +204,11 @@ Git的初始配置Git 提供了一个叫做 git config 的工，专门用来配�
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            分类
+
+            
+              分类
+            
+
           </a>
         </li>
       
@@ -252,7 +218,11 @@ Git的初始配置Git 提供了一个叫做 git config 的工，专门用来配�
             
               <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
             
-            关于
+
+            
+              关于
+            
+
           </a>
         </li>
       
@@ -262,7 +232,11 @@ Git的初始配置Git 提供了一个叫做 git config 的工，专门用来配�
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            归档
+
+            
+              归档
+            
+
           </a>
         </li>
       
@@ -272,7 +246,11 @@ Git的初始配置Git 提供了一个叫做 git config 的工，专门用来配�
             
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
-            标签
+
+            
+              标签
+            
+
           </a>
         </li>
       
@@ -282,7 +260,11 @@ Git的初始配置Git 提供了一个叫做 git config 的工，专门用来配�
             
               <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
             
-            公益404
+
+            
+              公益404
+            
+
           </a>
         </li>
       
@@ -314,7 +296,13 @@ Git的初始配置Git 提供了一个叫做 git config 的工，专门用来配�
   
   
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://rengang.me/2017/04/01/使用Git/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -332,14 +320,7 @@ Git的初始配置Git 提供了一个叫做 git config 的工，专门用来配�
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                使用Git
-              
-            
-          </h1>
+          <h2 class="post-title" itemprop="name headline">使用Git</h2>
         
 
         <div class="post-meta">
@@ -351,9 +332,7 @@ Git的初始配置Git 提供了一个叫做 git config 的工，专门用来配�
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-01T15:19:27+08:00">
-                2017-04-01
-              </time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-01T15:19:27+08:00">2017-04-01</time>
             
 
             
@@ -387,16 +366,6 @@ Git的初始配置Git 提供了一个叫做 git config 的工，专门用来配�
 
           
             
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a class="cloud-tie-join-count" href="/2017/04/01/使用Git/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count join-count" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
           
 
           
@@ -407,7 +376,7 @@ Git的初始配置Git 提供了一个叫做 git config 的工，专门用来配�
                  <i class="fa fa-eye"></i>
                </span>
                
-                 <span class="post-meta-item-text">阅读次数 </span>
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
                
                  <span class="leancloud-visitors-count"></span>
              </span>
@@ -423,7 +392,9 @@ Git的初始配置Git 提供了一个叫做 git config 的工，专门用来配�
       </header>
     
 
-
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -556,42 +527,62 @@ Git的初始配置Git 提供了一个叫做 git config 的工，专门用来配�
 
       
     </div>
+    
+    
+    
 
-    <div>
-      
-        
+    
 
-      
-    </div>
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
 
-    <div>
-      
-        
-  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
-    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
-      <span>赏</span>
-    </button>
-    <div id="QR" style="display: none;">
-      
-        <div id="wechat" style="display: inline-block">
-          <img id="wechat_qr" src="/images/WeChat.jpg" alt="Ren Gang WeChat Pay"/>
-          <p>微信打赏</p>
-        </div>
-      
-      
-        <div id="alipay" style="display: inline-block">
-          <img id="alipay_qr" src="/images/Alipay.jpg" alt="Ren Gang Alipay"/>
-          <p>支付宝打赏</p>
-        </div>
-      
-    </div>
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/WeChat.jpg" alt="Ren Gang 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/Alipay.jpg" alt="Ren Gang 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
   </div>
+</div>
 
+      </div>
+    
 
-      
-    </div>
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Ren Gang
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://rengang.me/2017/04/01/使用Git/" title="使用Git">http://rengang.me/2017/04/01/使用Git/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
 
+      </div>
+    
 
     <footer class="post-footer">
       
@@ -603,7 +594,7 @@ Git的初始配置Git 提供了一个叫做 git config 的工，专门用来配�
       
 
       
-        
+      
       
 
       
@@ -620,8 +611,8 @@ Git的初始配置Git 提供了一个叫做 git config 的工，专门用来配�
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/06/14/redis/" rel="prev" title="Redis基础记录">
-                Redis基础记录 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/04/01/Git分支实践/" rel="prev" title="Git分支实践">
+                Git分支实践 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -631,6 +622,10 @@ Git的初始配置Git 提供了一个叫做 git config 的工，专门用来配�
       
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -640,17 +635,15 @@ Git的初始配置Git 提供了一个叫做 git config 的工，专门用来配�
     </div>
   </div>
 
-          
+
           </div>
           
 
 
           
-  <div class="comments" id="comments">
-    
-      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
-    
-  </div>
+
+  
+
 
 
         </div>
@@ -666,101 +659,84 @@ Git的初始配置Git 提供了一个叫做 git config 的工，专门用来配�
   </div>
 
   <aside id="sidebar" class="sidebar">
+    
     <div class="sidebar-inner">
 
       
 
       
         <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
             文章目录
           </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
             站点概览
           </li>
         </ul>
       
 
-      <section class="site-overview sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/images/logo.jpg"
-               alt="Ren Gang" />
-          <p class="site-author-name" itemprop="name">Ren Gang</p>
-           
-              <p class="site-description motion-element" itemprop="description">Hang on to your dreams.</p>
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/logo.jpg"
+                alt="Ren Gang" />
+            
+              <p class="site-author-name" itemprop="name">Ren Gang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
           
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
         </div>
-        <nav class="site-state motion-element">
-
-          
-            <div class="site-state-item site-state-posts">
-              <a href="/archives">
-                <span class="site-state-item-count">12</span>
-                <span class="site-state-item-name">日志</span>
-              </a>
-            </div>
-          
-
-          
-            
-            
-            <div class="site-state-item site-state-categories">
-              <a href="/categories/index.html">
-                <span class="site-state-item-count">2</span>
-                <span class="site-state-item-name">分类</span>
-              </a>
-            </div>
-          
-
-          
-            
-            
-            <div class="site-state-item site-state-tags">
-              <a href="/tags/index.html">
-                <span class="site-state-item-count">6</span>
-                <span class="site-state-item-name">标签</span>
-              </a>
-            </div>
-          
-
-        </nav>
-
-        
-
-        <div class="links-of-author motion-element">
-          
-            
-              <span class="links-of-author-item">
-                <a href="https://github.com/Rengang" target="_blank" title="GitHub">
-                  
-                    <i class="fa fa-fw fa-github"></i>
-                  
-                  GitHub
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="http://weibo.com/lx1du" target="_blank" title="微博">
-                  
-                    <i class="fa fa-fw fa-globe"></i>
-                  
-                  微博
-                </a>
-              </span>
-            
-          
-        </div>
-
-        
-        
-
-        
-        
-
-        
-
-
       </section>
 
       
@@ -793,30 +769,38 @@ Git的初始配置Git 提供了一个叫做 git config 的工，专门用来配�
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy;  2015 - 
-  <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
-    <i class="fa fa-heart"></i>
+    <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">Ren Gang</span>
+  <span class="author" itemprop="copyrightHolder">true</span>
+
+  
+
+  
 </div>
 
 
-<div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
-</div>
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
 
-<div class="theme-info">
-  主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Mist
-  </a>
-</div>
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Pisces</a> v6.0.0</div>
+
+
 
 
         
+
+
+
+
+
+
 
         
       </div>
@@ -828,7 +812,9 @@ Git的初始配置Git 提供了一个叫做 git config 的工，专门用来配�
         
       </div>
     
+
     
+
   </div>
 
   
@@ -847,57 +833,79 @@ Git的初始配置Git 提供了一个叫做 git config 的工，专门用来配�
 
 
 
-  
 
 
-
-
-  
-  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
-
-
-
-  
-  
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
 
 
 
   
 
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.0.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.0.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.0"></script>
 
 
 
   
 
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.0"></script>
+
+
+
+  
 
 
   
@@ -912,33 +920,34 @@ Git的初始配置Git 提供了一个叫做 git config 的工，专门用来配�
 
 
   
-    
-    <script>
-      var cloudTieConfig = {
-        url: document.location.href, 
-        sourceId: "",
-        productKey: "7e2ad14054844051b171230b29c84ab2",
-        target: "cloud-tie-wrapper"
-      };
-    </script>
-    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
-  
-
-
 
 
 
 
 
   
+
+
+
+
+
+
+
+
+
+
+
+
   
+
+
+
+
 
   
 
   
-
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
   <script>AV.initialize("o94RYSmbTtKcED3AnCxlIdsX-gzGzoHsz", "Phgxd3laOMGiPLv5t1ukB85q");</script>
   <script>
     function showTime(Counter) {
@@ -1048,6 +1057,12 @@ Git的初始配置Git 提供了一个叫做 git config 的工，专门用来配�
 
   
 
+  
+  
+
+  
+
+  
 
   
 
